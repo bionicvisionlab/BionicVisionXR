@@ -1,0 +1,1336 @@
+Start time: 3/5/2021 12:00:00 AM: 3/5/2021 4:01:32 PM
+LetterTask1
+p, m - (False) 2.476635 seconds
+0
+p, m - (True) 0.4555035 seconds
+0
+d, m - (True) 0.3554192 seconds
+0
+c, m - (True) 0.3000698 seconds
+0
+o, m - (True) 0.3661766 seconds
+0
+l, m - (False) 0.2889957 seconds
+0
+e, m - (False) 0.2656059 seconds
+0
+t, m - (True) 0.2130318 seconds
+0
+d, m - (True) 0.2424927 seconds
+0
+l, m - (False) 0.2003994 seconds
+0
+c, m - (False) 0.2217388 seconds
+0
+z, m - (True) 0.2116928 seconds
+0
+o, m - (False) 0.2113304 seconds
+0
+f, m - (False) 0.17696 seconds
+0
+f, m - (False) 0.1955681 seconds
+0
+e, m - (True) 0.1791077 seconds
+0
+d, m - (False) 0.2242508 seconds
+0
+e, m - (False) 0.3556366 seconds
+0
+z, m - (False) 0.01063728 seconds
+0
+o, m - (True) 0.1886444 seconds
+0
+e, m - (False) 0.1892815 seconds
+0
+t, m - (True) 0.5223923 seconds
+0
+l, m - (False) 0.1877708 seconds
+0
+p, m - (False) 0.1892586 seconds
+0
+p, m - (False) 0.02228737 seconds
+0
+o, m - (False) 0.1879272 seconds
+0
+e, m - (True) 0.3517857 seconds
+0
+d, m - (False) 0.1890068 seconds
+0
+c, m - (True) 0.2324333 seconds
+0
+f, m - (False) 0.1773758 seconds
+0
+l, m - (False) 0.3449249 seconds
+0
+t, m - (False) 0.1992912 seconds
+0
+f, m - (True) 0.2007179 seconds
+0
+f, m - (False) 0.2324066 seconds
+0
+d, m - (False) 0.4210892 seconds
+0
+z, m - (True) 0.2110672 seconds
+0
+c, m - (False) 0.2106438 seconds
+0
+z, m - (False) 0.2119484 seconds
+0
+z, m - (False) 0.2211342 seconds
+0
+z, m - (False) 0.2120476 seconds
+0
+o, m - (False) 0.2207947 seconds
+0
+t, m - (False) 0.222496 seconds
+0
+p, m - (False) 0.03012848 seconds
+0
+f, m - (True) 0.2342033 seconds
+0
+o, m - (False) 0.2145424 seconds
+0
+p, m - (True) 0.2003174 seconds
+0
+t, m - (False) 0.2216301 seconds
+0
+e, m - (False) 0.2117424 seconds
+0
+l, m - (True) 0.2221107 seconds
+0
+l, m - (True) 0.2333145 seconds
+0
+c, m - (False) 0.2486534 seconds
+0
+t, m - (False) 0.3945923 seconds
+0
+c, m - (False) 0.4223747 seconds
+0
+d, m - (False) 0.7000771 seconds
+0
+LetterTask5
+e, m - (False) 5.938606 seconds
+0
+d, m - (False) 0.1996422 seconds
+0
+z, m - (False) 0.1996384 seconds
+0
+l, m - (False) 0.2117081 seconds
+0
+p, m - (False) 0.2224846 seconds
+0
+p, m - (True) 0.1891174 seconds
+0
+t, m - (False) 0.2320023 seconds
+0
+o, m - (False) 0.2215652 seconds
+0
+d, m - (True) 0.1891632 seconds
+0
+f, m - (False) 0.188591 seconds
+0
+f, m - (False) 0.3776779 seconds
+0
+z, m - (True) 0.1896629 seconds
+0
+z, m - (False) 0.1769485 seconds
+0
+z, m - (False) 0.1775894 seconds
+0
+p, m - (True) 0.1892471 seconds
+0
+o, m - (False) 0.3773232 seconds
+0
+t, m - (True) 0.23349 seconds
+0
+c, m - (False) 0.2004852 seconds
+0
+d, m - (True) 0.1771812 seconds
+0
+z, m - (True) 0.178936 seconds
+0
+t, m - (False) 0.1878891 seconds
+0
+c, m - (True) 0.1774101 seconds
+0
+d, m - (False) 0.189312 seconds
+0
+c, m - (False) 0.2000465 seconds
+0
+f, m - (True) 0.1781273 seconds
+0
+t, m - (True) 0.2102547 seconds
+0
+p, m - (False) 0.1887054 seconds
+0
+l, m - (True) 0.1891479 seconds
+0
+l, m - (False) 0.1887283 seconds
+0
+d, m - (False) 0.2332497 seconds
+0
+o, m - (False) 0.1772499 seconds
+0
+f, m - (False) 0.07817841 seconds
+0
+e, m - (True) 0.4328613 seconds
+0
+o, m - (True) 0.2101822 seconds
+0
+o, m - (False) 0.2219124 seconds
+0
+l, m - (True) 0.2337265 seconds
+0
+d, m - (False) 0.2116013 seconds
+0
+c, m - (False) 0.2326431 seconds
+0
+f, m - (True) 0.02177811 seconds
+0
+l, m - (False) 0.2110901 seconds
+0
+f, m - (False) 0.2214584 seconds
+0
+l, m - (False) 0.2221909 seconds
+0
+o, m - (True) 0.211235 seconds
+0
+t, m - (False) 0.2222633 seconds
+0
+t, m - (False) 0.2111778 seconds
+0
+z, m - (False) 0.2667122 seconds
+0
+e, m - (False) 0.2215385 seconds
+0
+c, m - (True) 0.2001991 seconds
+0
+e, m - (True) 0.2226257 seconds
+0
+e, m - (False) 0.2547073 seconds
+0
+p, m - (False) 0.221981 seconds
+0
+p, m - (False) 0.2187881 seconds
+0
+c, m - (False) 0.24617 seconds
+0
+e, m - (False) 0.3348236 seconds
+0
+LetterTask9
+z, m - (False) 20.75928 seconds
+0
+e, m - (False) 0.4331055 seconds
+0
+t, m - (True) 0.3784027 seconds
+0
+c, m - (False) 0.6441956 seconds
+0
+z, m - (False) 1.565521 seconds
+0
+t, m - (True) 2.66497 seconds
+0
+d, m - (False) 0.5338516 seconds
+0
+e, m - (False) 0.521965 seconds
+0
+l, m - (True) 0.4556427 seconds
+0
+p, m - (False) 0.3107529 seconds
+0
+p, m - (False) 0.3108521 seconds
+0
+c, m - (False) 0.244194 seconds
+0
+o, m - (False) 0.22229 seconds
+0
+d, m - (False) 0.1999969 seconds
+0
+z, m - (True) 0.2219543 seconds
+0
+t, m - (False) 0.211792 seconds
+0
+e, m - (False) 0.2207336 seconds
+0
+f, m - (True) 0.2007904 seconds
+0
+t, m - (False) 0.1973495 seconds
+0
+z, m - (True) 0.2001572 seconds
+0
+l, m - (False) 0.01148987 seconds
+0
+t, m - (False) 0.378418 seconds
+0
+f, m - (False) 0.1988525 seconds
+0
+e, m - (True) 0.4006042 seconds
+0
+l, m - (False) 0.1786652 seconds
+0
+p, m - (True) 0.1891708 seconds
+0
+e, m - (True) 0.1884842 seconds
+0
+p, m - (False) 0.2108154 seconds
+0
+p, m - (False) 0.1891937 seconds
+0
+f, m - (False) 0.2071609 seconds
+0
+f, m - (False) 0.569458 seconds
+0
+o, m - (True) 0.2556152 seconds
+0
+d, m - (False) 0.2336884 seconds
+0
+o, m - (False) 0.2553177 seconds
+0
+d, m - (True) 0.2228165 seconds
+0
+d, m - (False) 0.2213058 seconds
+0
+c, m - (False) 0.2337494 seconds
+0
+c, m - (False) 0.2218781 seconds
+0
+z, m - (False) 0.2109299 seconds
+0
+f, m - (True) 0.2114258 seconds
+0
+l, m - (True) 0.1886444 seconds
+0
+l, m - (False) 0.1880646 seconds
+0
+z, m - (False) 0.1889572 seconds
+0
+o, m - (False) 0.2105484 seconds
+0
+o, m - (False) 0.2081833 seconds
+0
+c, m - (True) 0.2014847 seconds
+0
+l, m - (False) 0.6115341 seconds
+0
+c, m - (True) 0.4330521 seconds
+0
+0
+t, m - (False) 2.100151 seconds
+0
+d, m - (True) 0.4224625 seconds
+0
+f, m - (False) 0.3659515 seconds
+0
+o, m - (True) 0.3552856 seconds
+0
+e, m - (False) 0.3789215 seconds
+0
+p, m - (True) 0.5094757 seconds
+0
+Start time: 3/5/2021 12:00:00 AM: 3/5/2021 4:05:21 PM
+LetterTask1
+Start time: 3/5/2021 12:00:00 AM: 3/5/2021 4:06:02 PM
+LetterTask1
+e, m - (True) 1.488575 seconds
+0
+o, m - (False) 0.2556076 seconds
+0
+c, m - (False) 0.2439442 seconds
+0
+c, m - (False) 0.2224655 seconds
+0
+o, m - (True) 0.2551041 seconds
+0
+p, m - (True) 0.2111683 seconds
+0
+z, m - (True) 0.21068 seconds
+0
+p, m - (False) 0.04467773 seconds
+0
+z, m - (True) 0.4220905 seconds
+0
+p, m - (True) 0.2105484 seconds
+0
+p, m - (False) 0.2116108 seconds
+0
+z, m - (False) 0.210886 seconds
+0
+l, m - (True) 0.1996136 seconds
+0
+f, m - (False) 0.1998634 seconds
+0
+t, m - (True) 0.2112846 seconds
+0
+e, m - (False) 0.2109356 seconds
+0
+e, m - (False) 0.2001858 seconds
+0
+e, m - (False) 0.2216988 seconds
+0
+d, m - (False) 0.2222176 seconds
+0
+e, m - (False) 0.1887989 seconds
+0
+p, m - (False) 0.2111683 seconds
+0
+d, m - (True) 0.1887932 seconds
+0
+c, m - (True) 0.1889038 seconds
+0
+e, m - (True) 0.1996422 seconds
+0
+f, m - (True) 0.200098 seconds
+0
+o, m - (False) 0.1882572 seconds
+0
+t, m - (True) 0.01099777 seconds
+0
+f, m - (True) 0.1883888 seconds
+0
+l, m - (False) 0.3665237 seconds
+0
+z, m - (False) 0.0218811 seconds
+0
+f, m - (False) 0.4539032 seconds
+0
+o, m - (False) 0.1999016 seconds
+0
+c, m - (True) 0.2444 seconds
+0
+d, m - (False) 0.2108192 seconds
+0
+d, m - (False) 0.2330933 seconds
+0
+l, m - (True) 0.2222748 seconds
+0
+l, m - (False) 0.2334213 seconds
+0
+d, m - (False) 0.2556343 seconds
+0
+t, m - (False) 0.2331505 seconds
+0
+t, m - (False) 0.2328644 seconds
+0
+f, m - (False) 0.2225685 seconds
+0
+t, m - (False) 0.2443542 seconds
+0
+f, m - (False) 0.2437057 seconds
+0
+d, m - (True) 0.2234268 seconds
+0
+z, m - (False) 0.2657166 seconds
+0
+c, m - (False) 0.2446709 seconds
+0
+p, m - (False) 0.2223549 seconds
+0
+o, m - (False) 0.2446251 seconds
+0
+o, m - (True) 0.2223015 seconds
+0
+l, m - (False) 0.2888756 seconds
+0
+l, m - (False) 0.222168 seconds
+0
+t, m - (False) 0.2324905 seconds
+0
+z, m - (False) 0.2545471 seconds
+0
+c, m - (False) 0.6111107 seconds
+0
+LetterTask5
+Start time: 3/5/2021 12:00:00 AM: 3/5/2021 4:07:45 PM
+LetterTask1
+z, m - (True) 0.6111221 seconds
+0
+l, m - (True) 0.2778854 seconds
+0
+t, m - (True) 0.2439899 seconds
+0
+d, m - (True) 0.2218819 seconds
+0
+e, m - (False) 0.2455673 seconds
+0
+l, m - (False) 0.2429562 seconds
+0
+d, m - (False) 0.2224941 seconds
+0
+d, m - (True) 0.3371391 seconds
+0
+d, m - (False) 0.1884937 seconds
+0
+c, m - (False) 0.2332897 seconds
+0
+z, m - (False) 0.244894 seconds
+0
+t, m - (True) 0.2326794 seconds
+0
+o, m - (False) 0.2109642 seconds
+0
+f, m - (False) 0.1887035 seconds
+0
+o, m - (False) 0.04464912 seconds
+0
+p, m - (False) 0.199667 seconds
+0
+l, m - (False) 0.1886597 seconds
+0
+f, m - (False) 0.2227993 seconds
+0
+p, m - (False) 0.2103024 seconds
+0
+f, m - (False) 0.1890011 seconds
+0
+t, m - (False) 0.1995602 seconds
+0
+c, m - (True) 0.2001495 seconds
+0
+l, m - (True) 0.1883183 seconds
+0
+o, m - (True) 0.1780548 seconds
+0
+o, m - (True) 0.189188 seconds
+0
+d, m - (False) 0.1884403 seconds
+0
+c, m - (False) 0.01063347 seconds
+0
+e, m - (False) 0.1991043 seconds
+0
+o, m - (False) 0.211132 seconds
+0
+z, m - (False) 0.189209 seconds
+0
+t, m - (False) 0.2107239 seconds
+0
+z, m - (False) 0.1778393 seconds
+0
+e, m - (True) 0.1664982 seconds
+0
+c, m - (True) 0.1884232 seconds
+0
+p, m - (False) 0.189085 seconds
+0
+p, m - (True) 0.2001057 seconds
+0
+e, m - (True) 0.1884804 seconds
+0
+f, m - (True) 0.1893101 seconds
+0
+t, m - (False) 0.1781864 seconds
+0
+z, m - (True) 0.2100468 seconds
+0
+c, m - (False) 0.1780891 seconds
+0
+l, m - (False) 0.188715 seconds
+0
+c, m - (False) 0.2114811 seconds
+0
+f, m - (True) 0.1796436 seconds
+0
+d, m - (False) 0.2102528 seconds
+0
+p, m - (False) 0.1984463 seconds
+0
+e, m - (False) 0.2001495 seconds
+0
+z, m - (False) 0.1892033 seconds
+0
+f, m - (False) 0.1990261 seconds
+0
+e, m - (False) 0.1781235 seconds
+0
+l, m - (False) 0.1998405 seconds
+0
+t, m - (False) 0.02205658 seconds
+0
+o, m - (False) 0.1888123 seconds
+0
+p, m - (True) 0.222353 seconds
+0
+LetterTask5
+Start time: 3/8/2021 12:00:00 AM: 3/8/2021 4:23:50 PM
+LetterTask1
+Start time: 3/8/2021 12:00:00 AM: 3/8/2021 4:24:35 PM
+LetterTask1
+Start time: 3/8/2021 12:00:00 AM: 3/8/2021 4:26:31 PM
+LetterTask1
+Start time: 3/8/2021 12:00:00 AM: 3/8/2021 4:28:30 PM
+LetterTask1
+d, m - () 1.0212 seconds
+0
+l, m - () 0.6441545 seconds
+0
+l, m - () 0.6997147 seconds
+0
+z, m - () 0.5996428 seconds
+0
+c, m - () 0.4774828 seconds
+0
+f, m - () 0.6996222 seconds
+0
+d, m - () 0.5108786 seconds
+0
+p, m - () 0.5775471 seconds
+0
+o, m - () 17.70263 seconds
+0
+t, m - () 3.376446 seconds
+0
+l, m - () 1.576756 seconds
+0
+o, m - () 3.931736 seconds
+0
+e, m - () 0.4883423 seconds
+0
+f, m - () 0.7996941 seconds
+0
+t, m - () 0.3441582 seconds
+0
+t, m - () 0.3444633 seconds
+0
+d, m - () 0.2665329 seconds
+0
+e, m - () 0.2335472 seconds
+0
+c, m - () 0.2336426 seconds
+0
+o, m - () 0.1991463 seconds
+0
+p, m - () 0.2225075 seconds
+0
+c, m - () 0.1776733 seconds
+0
+z, m - () 0.1997528 seconds
+0
+p, m - () 0.1887589 seconds
+0
+f, m - () 0.1779594 seconds
+0
+e, m - () 0.177475 seconds
+0
+z, m - () 0.1781273 seconds
+0
+LetterTask5
+d, m - () 3.337563 seconds
+0
+l, m - () 0.2662888 seconds
+0
+l, m - () 0.2552605 seconds
+0
+z, m - () 0.2558289 seconds
+0
+c, m - () 0.09975433 seconds
+0
+f, m - () 0.4446487 seconds
+0
+d, m - () 0.2117996 seconds
+0
+p, m - () 0.1991043 seconds
+0
+o, m - () 0.1884117 seconds
+0
+t, m - () 0.1671028 seconds
+0
+l, m - () 0.1658897 seconds
+0
+o, m - () 0.1671371 seconds
+0
+e, m - () 0.1550255 seconds
+0
+f, m - () 0.1589241 seconds
+0
+t, m - () 0.1636353 seconds
+0
+t, m - () 0.1547394 seconds
+0
+d, m - () 0.1667137 seconds
+0
+e, m - () 0.1675568 seconds
+0
+c, m - () 0.1657486 seconds
+0
+o, m - () 0.1447639 seconds
+0
+p, m - () 0.1552963 seconds
+0
+c, m - () 0.168045 seconds
+0
+z, m - () 0.1421356 seconds
+0
+p, m - () 0.1663322 seconds
+0
+f, m - () 0.3330345 seconds
+0
+e, m - () 0.1664505 seconds
+0
+z, m - () 0.1556015 seconds
+0
+LetterTask9
+d, m - () 1.160717 seconds
+0
+l, m - () 0.3222389 seconds
+0
+l, m - () 0.2429352 seconds
+0
+z, m - () 0.2220268 seconds
+0
+c, m - () 0.1892967 seconds
+0
+f, m - () 0.1997643 seconds
+0
+d, m - () 0.1890259 seconds
+0
+p, m - () 0.1664543 seconds
+0
+o, m - () 0.1544495 seconds
+0
+t, m - () 0.1674957 seconds
+0
+l, m - () 0.1661224 seconds
+0
+o, m - () 0.1669159 seconds
+0
+e, m - () 0.1668053 seconds
+0
+f, m - () 0.1561508 seconds
+0
+t, m - () 0.1548424 seconds
+0
+t, m - () 0.1660309 seconds
+0
+d, m - () 0.1885185 seconds
+0
+e, m - () 0.1562767 seconds
+0
+c, m - () 0.1441879 seconds
+0
+o, m - () 0.1679459 seconds
+0
+p, m - () 0.1539307 seconds
+0
+c, m - () 0.1775246 seconds
+0
+z, m - () 0.1563606 seconds
+0
+p, m - () 0.1881027 seconds
+0
+f, m - () 0.1670113 seconds
+0
+e, m - () 0.16679 seconds
+0
+z, m - () 0.1888542 seconds
+0
+Start time: 3/8/2021 12:00:00 AM: 3/8/2021 5:06:06 PM
+LetterTask1
+Start time: 3/9/2021 12:00:00 AM: 3/9/2021 1:34:45 PM
+LetterTask1
+Start time: 3/9/2021 12:00:00 AM: 3/9/2021 1:35:43 PM
+LetterTask1
+Start time: 3/9/2021 12:00:00 AM: 3/9/2021 1:36:49 PM
+LetterTask1
+Start time: 3/9/2021 12:00:00 AM: 3/9/2021 1:37:43 PM
+LetterTask1
+d, i - () 5.60874 seconds
+0
+l, m - () 0.7440052 seconds
+0
+l, m - () 0.3889141 seconds
+0
+z, m - () 0.321825 seconds
+0
+c, m - () 0.3344688 seconds
+0
+f, m - () 0.2654305 seconds
+0
+d, m - () 0.2888432 seconds
+0
+p, m - () 0.2664509 seconds
+0
+o, m - () 0.2885952 seconds
+0
+t, m - () 0.2668362 seconds
+0
+l, m - () 0.2664452 seconds
+0
+o, m - () 0.2442646 seconds
+0
+e, m - () 0.255415 seconds
+0
+f, m - () 0.2445374 seconds
+0
+t, m - () 0.2440281 seconds
+0
+t, m - () 0.2116852 seconds
+0
+d, m - () 0.2215862 seconds
+0
+e, m - () 0.222084 seconds
+0
+c, m - () 0.2332211 seconds
+0
+o, m - () 0.210886 seconds
+0
+p, m - () 0.2444973 seconds
+0
+c, m - () 0.2109661 seconds
+0
+z, m - () 0.2449093 seconds
+0
+p, m - () 0.2104702 seconds
+0
+f, m - () 0.1998634 seconds
+0
+e, m - () 0.2221794 seconds
+0
+z, m - () 0.2117348 seconds
+0
+LetterTask5
+d, m - () 1.125286 seconds
+0
+l, m - () 0.4107742 seconds
+0
+l, m - () 0.3889427 seconds
+0
+z, m - () 0.299736 seconds
+0
+c, m - () 0.2663994 seconds
+0
+f, m - () 0.2778931 seconds
+0
+d, m - () 0.2443123 seconds
+0
+p, m - () 0.2108459 seconds
+0
+o, m - () 0.1998978 seconds
+0
+t, m - () 0.2232246 seconds
+0
+l, m - () 0.1988029 seconds
+0
+o, m - () 0.2005615 seconds
+0
+e, m - () 0.1992455 seconds
+0
+f, m - () 0.211174 seconds
+0
+t, m - () 0.1997528 seconds
+0
+t, m - () 0.2103996 seconds
+0
+d, m - () 0.2227554 seconds
+0
+e, m - () 0.8324623 seconds
+0
+c, m - () 0.3001022 seconds
+0
+o, m - () 0.3219337 seconds
+0
+p, m - () 0.2664528 seconds
+0
+c, m - () 0.2665062 seconds
+0
+z, m - () 0.2447014 seconds
+0
+p, m - () 0.2554398 seconds
+0
+f, m - () 0.2662544 seconds
+0
+e, m - () 0.2548561 seconds
+0
+z, m - () 0.2671432 seconds
+0
+LetterTask9
+d, m - () 1.063049 seconds
+0
+l, m - () 0.4775848 seconds
+0
+l, m - () 0.3444557 seconds
+0
+z, m - () 0.2556 seconds
+0
+c, m - () 0.2329216 seconds
+0
+f, m - () 0.1999435 seconds
+0
+d, m - () 0.1998558 seconds
+0
+p, m - () 0.1999626 seconds
+0
+o, m - () 0.1888924 seconds
+0
+t, m - () 0.02199554 seconds
+0
+l, m - () 0.4107361 seconds
+0
+o, m - () 0.1888542 seconds
+0
+e, m - () 0.1998405 seconds
+0
+f, m - () 0.2110138 seconds
+0
+t, m - () 0.1778297 seconds
+0
+t, m - () 0.055439 seconds
+0
+d, m - () 0.2012138 seconds
+0
+e, m - () 0.2202339 seconds
+0
+c, m - () 0.2665253 seconds
+0
+o, m - () 0.3011589 seconds
+0
+p, m - () 0.2552986 seconds
+0
+c, m - () 0.3325195 seconds
+0
+z, m - () 0.2444687 seconds
+0
+p, m - () 0.2880173 seconds
+0
+f, m - () 0.2444382 seconds
+0
+e, m - () 0.334404 seconds
+0
+z, m - () 0.2443123 seconds
+0
+Start time: 3/9/2021 12:00:00 AM: 3/9/2021 1:44:44 PM
+LetterTask1
+Start time: 3/9/2021 12:00:00 AM: 3/9/2021 1:45:21 PM
+LetterTask1
+Start time: 3/18/2021 12:00:00 AM: 3/18/2021 4:18:07 PM
+LetterTask1
+Start time: 3/18/2021 12:00:00 AM: 3/18/2021 4:19:32 PM
+LetterTask1
+d, m - () 9.029171 seconds
+0
+l, m - () 1.463245 seconds
+0
+l, m - () 0.6708984 seconds
+0
+z, m - () 0.5065346 seconds
+0
+c, m - () 0.4837761 seconds
+0
+f, m - () 0.4294434 seconds
+0
+d, m - () 0.4064713 seconds
+0
+p, m - () 0.3642082 seconds
+0
+o, m - () 0.4167938 seconds
+0
+t, m - () 0.4297066 seconds
+0
+l, m - () 0.4736176 seconds
+0
+o, m - () 0.5265312 seconds
+0
+e, m - () 0.4959373 seconds
+0
+f, m - () 0.4957314 seconds
+0
+t, m - () 0.4382553 seconds
+0
+t, m - () 0.4301224 seconds
+0
+d, m - () 0.4176292 seconds
+0
+e, m - () 0.3412895 seconds
+0
+c, m - () 0.3180351 seconds
+0
+o, m - () 0.2537689 seconds
+0
+p, m - () 0.2528763 seconds
+0
+c, m - () 0.5833969 seconds
+0
+z, m - () 0.3415375 seconds
+0
+p, m - () 0.3612289 seconds
+0
+Start time: 3/18/2021 12:00:00 AM: 3/18/2021 4:24:10 PM
+LetterTask1
+Start time: 3/18/2021 12:00:00 AM: 3/18/2021 4:25:48 PM
+LetterTask1
+Start time: 3/18/2021 12:00:00 AM: 3/18/2021 4:26:45 PM
+LetterTask1
+Start time: 3/18/2021 12:00:00 AM: 3/18/2021 4:27:54 PM
+LetterTask1
+Start time: 3/18/2021 12:00:00 AM: 3/18/2021 4:30:31 PM
+LetterTask9
+d, m - () 1.708658 seconds
+0
+l, m - () 0.5950146 seconds
+0
+l, m - () 0.4514694 seconds
+0
+z, m - () 0.4268208 seconds
+0
+Start time: 3/18/2021 12:00:00 AM: 3/18/2021 4:33:19 PM
+LetterTask1
+Start time: 3/18/2021 12:00:00 AM: 3/18/2021 4:52:13 PM
+LetterTask9
+Start time: 3/18/2021 12:00:00 AM: 3/18/2021 4:53:59 PM
+LetterTask9
+z, m - () 2.211725 seconds
+0
+Start time: 6/8/2021 12:00:00 AM: 6/8/2021 9:16:33 PM
+LetterTask1
+d, d - () 30.68834 seconds
+1
+Start time: 6/23/2021 12:00:00 AM: 6/23/2021 10:17:19 PM
+LetterTask1
+Start time: 6/23/2021 12:00:00 AM: 6/23/2021 10:18:07 PM
+LetterTask1
+Start time: 6/23/2021 12:00:00 AM: 6/23/2021 10:18:55 PM
+LetterTask1
+Start time: 6/24/2021 12:00:00 AM: 6/24/2021 12:25:12 PM
+LetterTask1
+d, m - () 40.5147 seconds
+0
+l, m - () 4.785789 seconds
+0
+l, m - () 1.328491 seconds
+0
+Start time: 6/24/2021 12:00:00 AM: 6/24/2021 12:29:30 PM
+LetterTask1
+Start time: 6/24/2021 12:00:00 AM: 6/24/2021 6:11:46 PM
+LetterTask1
+Start time: 6/25/2021 12:00:00 AM: 6/25/2021 1:22:55 PM
+LetterTask1
+Start time: 6/25/2021 12:00:00 AM: 6/25/2021 1:24:39 PM
+LetterTask1
+d, d - () 10.52608 seconds
+1
+l, m - () 68.97586 seconds
+0
+l, l - () 14.00873 seconds
+1
+z, z - () 9.143463 seconds
+1
+c, c - () 7.016632 seconds
+1
+Start time: 6/25/2021 12:00:00 AM: 6/25/2021 1:30:57 PM
+LetterTask1
+d, d - () 25.36042 seconds
+1
+l, l - () 6.344456 seconds
+1
+l, m - () 2.177246 seconds
+0
+z, z - () 5.248005 seconds
+1
+Start time: 6/25/2021 12:00:00 AM: 6/25/2021 1:45:25 PM
+LetterTask1
+Start time: 6/25/2021 12:00:00 AM: 6/25/2021 1:46:25 PM
+LetterTask1
+Start time: 6/25/2021 12:00:00 AM: 6/25/2021 1:50:19 PM
+LetterTask1
+Start time: 6/25/2021 12:00:00 AM: 6/25/2021 1:52:48 PM
+LetterTask1
+Start time: 6/25/2021 12:00:00 AM: 6/25/2021 1:53:26 PM
+LetterTask1
+Start time: 6/25/2021 12:00:00 AM: 6/25/2021 1:54:22 PM
+LetterTask1
+Start time: 6/25/2021 12:00:00 AM: 6/25/2021 1:56:08 PM
+LetterTask1
+d, d - () 28.46217 seconds
+1
+l, l - () 8.555561 seconds
+1
+l, b - () 4.941452 seconds
+0
+z, z - () 5.509026 seconds
+1
+c, m - () 239.9989 seconds
+0
+f, f - () 30.73193 seconds
+1
+d, d - () 7.847595 seconds
+1
+p, f - () 11.27789 seconds
+0
+o, d - () 7.535828 seconds
+0
+t, t - () 10.10626 seconds
+1
+Start time: 7/15/2021 12:00:00 AM: 7/15/2021 4:41:35 PM
+LetterTask1
+Start time: 7/16/2021 12:00:00 AM: 7/16/2021 7:11:58 PM
+LetterTask1
+Start time: 7/16/2021 12:00:00 AM: 7/16/2021 7:56:27 PM
+LetterTask1
+Start time: 9/5/2021 12:00:00 AM: 9/5/2021 7:44:31 PM
+LetterTask1
+Start time: 9/5/2021 12:00:00 AM: 9/5/2021 11:35:59 PM
+LetterTask1
+d, d - () 9.266403 seconds
+1
+l, l - () 11.98555 seconds
+1
+l, l - () 2.701706 seconds
+1
+z, z - () 2.8004 seconds
+1
+c, c - () 5.395737 seconds
+1
+f, f - () 5.882797 seconds
+1
+d, d - () 4.200165 seconds
+1
+p, p - () 2.334793 seconds
+1
+o, m - () 1.250137 seconds
+0
+t, m - () 1.084579 seconds
+0
+l, m - () 0.5137939 seconds
+0
+o, m - () 0.5177917 seconds
+0
+0
+Start time: 9/5/2021 12:00:00 AM: 9/5/2021 11:41:25 PM
+LetterTask1
+Start time: 9/5/2021 12:00:00 AM: 9/5/2021 11:43:40 PM
+LetterTask1
+d, d - () 4.433483 seconds
+1
+l, s - () 31.33171 seconds
+0
+l, m - () 0.7678909 seconds
+0
+z, m - () 0.8335266 seconds
+0
+c, m - () 0.781868 seconds
+0
+f, m - () 1.051643 seconds
+0
+d, m - () 0.598381 seconds
+0
+p, m - () 0.7166061 seconds
+0
+o, m - () 0.6848679 seconds
+0
+t, m - () 0.8651123 seconds
+0
+l, m - () 0.9000702 seconds
+0
+o, m - () 0.7015457 seconds
+0
+0
+0
+0
+0
+0
+Start time: 9/6/2021 12:00:00 AM: 9/6/2021 12:01:38 AM
+LetterTask1
+Start time: 9/6/2021 12:00:00 AM: 9/6/2021 12:02:03 AM
+LetterTask1
+d, m - () 2.065857 seconds
+0
+l, m - () 0.5666809 seconds
+0
+l, m - () 0.5353241 seconds
+0
+z, m - () 0.3978424 seconds
+0
+c, m - () 0.3520203 seconds
+0
+f, m - () 1.782707 seconds
+0
+d, m - () 0.6985092 seconds
+0
+p, m - () 0.5189133 seconds
+0
+o, m - () 0.5004501 seconds
+0
+t, m - () 0.5140686 seconds
+0
+l, m - () 0.4500275 seconds
+0
+o, m - () 0.5347595 seconds
+0
+0
+0
+0
+Start time: 9/6/2021 12:00:00 AM: 9/6/2021 12:12:21 AM
+LetterTask1
+Start time: 9/6/2021 12:00:00 AM: 9/6/2021 12:12:24 AM
+LetterTask1
+Start time: 9/6/2021 12:00:00 AM: 9/6/2021 12:13:16 AM
+LetterTask1
+d, m - () 13.74724 seconds
+0
+l, m - () 0.6007233 seconds
+0
+l, m - () 0.4171791 seconds
+0
+z, m - () 0.3986855 seconds
+0
+c, m - () 0.4010925 seconds
+0
+f, m - () 0.3839035 seconds
+0
+d, m - () 0.5005341 seconds
+0
+p, m - () 0.4822273 seconds
+0
+o, m - () 0.4166679 seconds
+0
+t, m - () 0.4164238 seconds
+0
+l, m - () 0.4341621 seconds
+0
+o, m - () 0.4178085 seconds
+0
+Start time: 9/6/2021 12:00:00 AM: 9/6/2021 12:18:21 AM
+LetterTask1
+d, m - () 0.9490185 seconds
+0
+l, m - () 0.4168339 seconds
+0
+l, m - () 0.399435 seconds
+0
+z, m - () 0.4490643 seconds
+0
+c, m - () 0.4013062 seconds
+0
+f, m - () 0.4168224 seconds
+0
+d, m - () 0.4819927 seconds
+0
+p, m - () 0.4998798 seconds
+0
+o, m - () 0.4999218 seconds
+0
+t, m - () 0.5350189 seconds
+0
+l, m - () 0.5485134 seconds
+0
+o, m - () 0.4843712 seconds
+0
+Start time: 9/6/2021 12:00:00 AM: 9/6/2021 12:20:48 AM
+LetterTask1
+d, m - () 19.38136 seconds
+0
+l, m - () 0.4998131 seconds
+0
+l, m - () 0.3838654 seconds
+0
+z, m - () 0.381649 seconds
+0
+c, m - () 0.3334541 seconds
+0
+f, m - () 0.3681908 seconds
+0
+d, m - () 0.5000381 seconds
+0
+p, m - () 0.4654465 seconds
+0
+o, m - () 0.4993324 seconds
+0
+t, m - () 0.5177383 seconds
+0
+l, m - () 0.6007576 seconds
+0
+o, m - () 0.5988884 seconds
+0
+0
+0
+0
+0
+0
+0
+Start time: 9/6/2021 12:00:00 AM: 9/6/2021 12:31:31 AM
+LetterTask1
+d, m - () 2.181358 seconds
+0
+l, m - () 0.4312458 seconds
+0
+l, m - () 0.3157387 seconds
+0
+z, m - () 0.3000622 seconds
+0
+c, m - () 0.5026894 seconds
+0
+f, m - () 0.2816219 seconds
+0
+d, m - () 0.4506588 seconds
+0
+p, m - () 0.3168049 seconds
+0
+o, m - () 0.466608 seconds
+0
+t, m - () 0.5003586 seconds
+0
+l, m - () 0.3980541 seconds
+0
+o, m - () 0.3840027 seconds
+0
+Start time: 9/6/2021 12:00:00 AM: 9/6/2021 12:35:14 AM
+LetterTask1
+d, m - () 1.032501 seconds
+0
+l, m - () 0.3344669 seconds
+0
+l, m - () 0.283968 seconds
+0
+z, m - () 0.3338299 seconds
+0
+c, m - () 0.2981815 seconds
+0
+f, m - () 0.3175545 seconds
+0
+d, m - () 0.366375 seconds
+0
+p, m - () 0.3339157 seconds
+0
+o, m - () 0.3846378 seconds
+0
+t, m - () 0.4484043 seconds
+0
+l, m - () 0.4998798 seconds
+0
+o, m - () 0.5172215 seconds
+0
+0
+0
+0
+0
+0
+0
+0
+0
+Start time: 9/6/2021 12:00:00 AM: 9/6/2021 11:37:00 AM
+LetterTask1
+d, d - () 30.83466 seconds
+1
+l, m - () 0.5331726 seconds
+0
+l, m - () 0.6499596 seconds
+0
+z, m - () 0.4501839 seconds
+0
+c, m - () 0.4663696 seconds
+0
+f, m - () 0.5835609 seconds
+0
+d, m - () 0.7662735 seconds
+0
+p, m - () 0.5335388 seconds
+0
+o, m - () 0.4499512 seconds
+0
+t, m - () 0.4497299 seconds
+0
+l, m - () 0.4338074 seconds
+0
+o, m - () 0.4496002 seconds
+0
+Start time: 9/6/2021 12:00:00 AM: 9/6/2021 11:40:12 AM
+LetterTask1
