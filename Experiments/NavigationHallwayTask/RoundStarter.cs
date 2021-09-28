@@ -18,28 +18,36 @@ public class RoundStarter : MonoBehaviour
         
         yield return null; 
     }
-    
-    public void RoundStart()
-    {
-        fileHandler.AppendLine(HallwayTaskController.Instance.subjectFile.Replace(".csv","_collisions.csv"),  HallwayTaskController.Instance.currentBlock+","+HallwayTaskController.Instance.currentTrial );
-        int zInversion = HallwayTaskController.Instance.currentTrial % 2 == 1 ? -1 : 1;
 
+    public void RoundStartVR()
+    {
+        int zInversion = HallwayTaskController.Instance.currentTrial % 2 == 1 ? -1 : 1;
         Transform steamVRCamera = SteamVR_Render.Top().origin;
         Vector3 headPosition = SteamVR_Render.Top().head.position;
         Vector3 groundPosition = new Vector3(headPosition.x, steamVRCamera.position.y, headPosition.z);
-        Vector3 destination = new Vector3(headPosition.x, 0, zInversion*2.8f);
+        Vector3 destination = new Vector3(headPosition.x, 0, zInversion * 2.8f);
         Vector3 translateVector = destination - groundPosition;
-        StartCoroutine(MoveCamera(steamVRCamera, translateVector)); 
+        StartCoroutine(MoveCamera(steamVRCamera, translateVector));
         
-        if (HallwayTaskController.Instance.currentBlock > 0)
-            VariableManagerScript.Instance.runShaders = true; 
-        
+        RoundStart();
+    }
+    
+    public void RoundStart(){
         Debug.Log("NEW ROUND"); 
         Debug.Log(Time.time - HallwayTaskController.Instance.roundTimer);
+        Debug.Log(HallwayTaskController.Instance.currentBlock + ", " + HallwayTaskController.Instance.currentTrial);
         Debug.Log(HallwayTaskController.Instance.locationList[HallwayTaskController.Instance.currentBlock, HallwayTaskController.Instance.currentTrial].depth1);
         Debug.Log(HallwayTaskController.Instance.locationList[HallwayTaskController.Instance.currentBlock, HallwayTaskController.Instance.currentTrial].depth2);
         Debug.Log(HallwayTaskController.Instance.locationList[HallwayTaskController.Instance.currentBlock, HallwayTaskController.Instance.currentTrial].depth3);
         
+        fileHandler.AppendLine(HallwayTaskController.Instance.subjectFile.Replace(".csv", "_collisions.csv"),
+            HallwayTaskController.Instance.blockSettings[HallwayTaskController.Instance.currentBlock] + "," +
+            HallwayTaskController.Instance.currentTrial);
+        
+        int zInversion = HallwayTaskController.Instance.currentTrial % 2 == 1 ? -1 : 1;
+        if (HallwayTaskController.Instance.vrVersion == 0)
+            zInversion = 1; 
+       
         switch (HallwayTaskController.Instance.locationList[HallwayTaskController.Instance.currentBlock, HallwayTaskController.Instance.currentTrial].depth1)
         {
             case(0):
@@ -94,7 +102,8 @@ public class RoundStarter : MonoBehaviour
                 person3.transform.position = HallwayTaskController.Instance.locationList[HallwayTaskController.Instance.currentBlock, HallwayTaskController.Instance.currentTrial].leftSide3 ? new Vector3(-.4572f, 0, zInversion * 8.8392f) : new Vector3(.4572f, 0, zInversion * 8.8392f);
                 break;
         }
- 
+        if (HallwayTaskController.Instance.currentBlock > 0)
+            VariableManagerScript.Instance.runShaders = true;
     }
         
     // Start is called before the first frame update
@@ -107,7 +116,10 @@ public class RoundStarter : MonoBehaviour
     {
         if (!HallwayTaskController.Instance.roundStarted)
         {
-            RoundStart();
+            if (HallwayTaskController.Instance.vrVersion == 1)
+                RoundStartVR();
+            else
+                RoundStart(); 
             HallwayTaskController.Instance.roundStarted = true;
         }
     }

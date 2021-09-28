@@ -4,10 +4,6 @@ namespace BionicVisionVR.Resources
 {
     public enum PreDefinedBlocks
     {
-        MicrosoftFellowship1,
-        MicrosoftFellowship2,
-        MicrosoftFellowship3,
-        Argus2Rho100Lambda100,
         LetterTask1, 
         LetterTask2,
         LetterTask3,

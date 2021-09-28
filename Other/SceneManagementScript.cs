@@ -113,7 +113,7 @@ public class SceneManagementScript : MonoBehaviour
         {
             VariableManagerScript.Instance.useLeftEye = true; 
         }
-        SceneManager.LoadScene("hallwayForFigures");
+        SceneManager.LoadScene("HallwayScene");
     }
 
     public void reloadIntroScene()

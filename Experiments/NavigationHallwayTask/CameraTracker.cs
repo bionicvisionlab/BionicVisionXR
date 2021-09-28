@@ -7,7 +7,7 @@ public class CameraTracker : MonoBehaviour
 {
     private FileHandler fileHandler = new FileHandler(); 
     private float recordHeadTimer = 0.0f;
-    private float timeInterval = .5f; //how often to record head position
+    public float timeInterval = .5f; //how often to record head position
     public Camera mainCamera; 
     
     
@@ -20,7 +20,7 @@ public class CameraTracker : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Time.time - recordHeadTimer > .5f)
+        if (Time.time - recordHeadTimer > timeInterval)
         {
             fileHandler.AppendLine(HallwayTaskController.Instance.subjectFile.Replace(".csv","_head.csv"), (Time.time - HallwayTaskController.Instance.roundTimer) + mainCamera.transform.rotation.eulerAngles.ToString() );
             fileHandler.AppendLine(HallwayTaskController.Instance.subjectFile.Replace(".csv","_head-position.csv"), (Time.time - HallwayTaskController.Instance.roundTimer) + mainCamera.transform.position.ToString() );

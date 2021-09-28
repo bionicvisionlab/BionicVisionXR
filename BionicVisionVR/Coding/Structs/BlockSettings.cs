@@ -30,22 +30,7 @@ namespace Assets.BionicVisionVR.Coding.Structs
             BlockSettings returnBlock;
             switch (block)
             {
-                case PreDefinedBlocks.MicrosoftFellowship1:
-                    returnBlock = new BlockSettings(100, 130, 17, 17, 500, 0, 0, 0);
-                    break;
-                case PreDefinedBlocks.MicrosoftFellowship2:
-                    returnBlock = new BlockSettings(300, 350, 17, 17, 300, 0, 0, 0);
-                    break; 
-                case PreDefinedBlocks.MicrosoftFellowship3:
-                    returnBlock = new BlockSettings(100, 130, 17, 17, 500, 0, 0, 0);
-                    break; 
-                case PreDefinedBlocks.Argus2Rho100Lambda100:
-                    returnBlock = new BlockSettings(100, 100, 10, 6, 575, 0, 0, 45); 
-                    break;
-                case PreDefinedBlocks.LetterTask1: // all subjects do this first to learn bionic vision on the easiest settings
-                    returnBlock = new BlockSettings(100, 50, 30, 19, 575, 0, 0, 0); 
-                    break;
-                case PreDefinedBlocks.LetterTask10: //old #1
+                case PreDefinedBlocks.LetterTask1: 
                     returnBlock = new BlockSettings(100, 50, 10, 6, 575, 0, 0, 45); 
                     break;
                 case PreDefinedBlocks.LetterTask2:
@@ -72,7 +57,9 @@ namespace Assets.BionicVisionVR.Coding.Structs
                 case PreDefinedBlocks.LetterTask9:
                     returnBlock = new BlockSettings(500, 5000, 10, 6, 575, 0, 0, 45); 
                     break;                
-                
+                case PreDefinedBlocks.LetterTask10: // Easiest settings
+                    returnBlock = new BlockSettings(100, 50, 30, 19, 575, 0, 0, 0); 
+                    break;
                 case PreDefinedBlocks.LetterTask11:
                     returnBlock = new BlockSettings(100, 1000, 30, 19, 575, 0, 0, 0); 
                     break;
