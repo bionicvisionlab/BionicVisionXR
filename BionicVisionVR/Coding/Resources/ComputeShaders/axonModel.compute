@@ -1,0 +1,181 @@
+﻿// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel RendPercepts
+
+#define tau1 .00042f
+#define tau2   .00045f
+#define tau3   .0002625f
+#define eps   0.0f 
+#define tau_ca   3.0f
+#define beta   0.83f 
+#define electrodeThreshold .1
+#define numberPixelsForElectrodeDisplay 0
+       
+// Variables passed in from RunShaderWithBuffer
+    struct SimulationVariables
+     {
+        float r1; 
+        float r2;
+        float r3;
+        float ca;
+        float r4a;
+        float r4b;
+        float r4c;
+        float t;  
+     };
+     
+     struct AxonSegment
+     {
+         float x;
+         float y;  
+         float brightnessContribution;
+     };
+     
+     struct Electrode
+     {
+         float x;
+         float y; 
+         float current; 
+     };
+     
+     RWTexture2D<float4> viewTex;
+     
+     RWStructuredBuffer<SimulationVariables> simulationVariables : register(u1); 
+     RWStructuredBuffer<Electrode> electrodesBuffer : register(u2);
+     RWStructuredBuffer<int> debugBuffer : register(u3); 
+     
+     StructuredBuffer<AxonSegment> axonContributionBuffer;
+     StructuredBuffer<float> axonSegmentGaussToElectrodesBuffer; 
+     StructuredBuffer<int> axonIdxStartBuffer;
+     StructuredBuffer<int> axonIdxEndBuffer;
+     StructuredBuffer<int> idxStartBuffer;
+     StructuredBuffer<int> idxEndBuffer; 
+     
+     uint debugMode; 
+     uint showElectrodes; 
+     uint numberAxonTraces;
+     uint specificTrace;
+     
+     uint xElectrodes;
+     uint yElectrodes; 
+     uint numberElectrodes; 
+     uint xResolution;
+     uint yResolution;   
+     float implant_fov; 
+     float headset_fov; 
+     float degreeToMicronMultiplier; 
+     float rho;
+     float amplitudeMultiplier;
+     float threshold;
+     float xPixelSizeDivBy2;
+     float yPixelSizeDivBy2;  
+     float dt; 
+     uint frameDur; 
+     uint timeStepsBetweenPulses;
+     uint posStart;
+     uint posEnd;
+     uint negStart;
+     uint negEnd; 
+     uint minimumScreenPositionX;
+     uint maximumScreenPositionX;
+     uint minimumScreenPositionY;
+     uint maximumScreenPositionY;
+     uint axonBufferLength; 
+     uint downscaleFactor;
+
+     uint pixelNumberX(float screenPos){
+         return (int) (xResolution * screenPos);
+     }  
+     
+     uint pixelNumberY(float screenPos){
+         return (int) (yResolution * screenPos);
+     }
+
+[numthreads(16,8,1)]
+void RendPercepts (uint3 id : SV_DispatchThreadID)
+{
+    float2 screenCoords = id.xy + float2(minimumScreenPositionX, minimumScreenPositionY);
+    if (debugMode == 1) {
+    
+        float2 scaledCoords = (id.x/xResolution, id.y/yResolution);
+        if (showElectrodes == 1) {
+            for (int currentElectrode = 0; currentElectrode < numberElectrodes; currentElectrode++) {
+                if (id.x >= pixelNumberX(electrodesBuffer[currentElectrode].x) - numberPixelsForElectrodeDisplay &&
+                    id.x <= pixelNumberX(electrodesBuffer[currentElectrode].x) + numberPixelsForElectrodeDisplay &&
+                    id.y >= pixelNumberY(electrodesBuffer[currentElectrode].y) - numberPixelsForElectrodeDisplay &&
+                    id.y <= pixelNumberY(electrodesBuffer[currentElectrode].y) + numberPixelsForElectrodeDisplay) {
+                    viewTex[screenCoords] = float4(1, 0, 0, 1);
+                    return;
+                }
+            }
+        }
+         
+        //Traces specific axon bundle that starts at pixel
+        for (uint r = axonIdxStartBuffer[specificTrace]; r < axonIdxEndBuffer[specificTrace]; r++) {
+            if (scaledCoords.x < axonContributionBuffer[r].x + .005 && scaledCoords.x > axonContributionBuffer[r].x - .005) {
+                if (scaledCoords.y < axonContributionBuffer[r].y + .005 && scaledCoords.y > axonContributionBuffer[r].y - .005) {
+                    viewTex[screenCoords] = float4(1, 1, 1, 1);
+                    return;
+                }
+            }
+        }
+    
+        //Traces axon bundles starting at equally spaced intervals
+        for (int q = 0; q < numberAxonTraces; q++) {
+            for (uint p = axonIdxStartBuffer[0 + (q * round(axonBufferLength / numberAxonTraces))]; p < axonIdxEndBuffer[0 + (q * round(axonBufferLength / numberAxonTraces))]; p++) {
+                if (scaledCoords.x < axonContributionBuffer[p].x + .005 && scaledCoords.x > axonContributionBuffer[p].x - .005) {
+                    if (scaledCoords.y < axonContributionBuffer[p].y + .005 && scaledCoords.y > axonContributionBuffer[p].y - .005) {
+                        viewTex[screenCoords] = float4(1, 1, 1, 1);
+                        return;
+                    }
+                }
+            }
+        }
+    }
+
+    
+    if (id.x > maximumScreenPositionX-minimumScreenPositionX || id.y > maximumScreenPositionY-minimumScreenPositionY) {
+        //viewTex[id.xy] = float4(0,0,0,0);
+        return;
+    }
+    
+    float4 col;
+    
+    // Get current pixel being shaded's one dimensional number
+    uint xPixel = id.x;
+    uint yPixel = id.y;
+    uint loc1D = xPixel + ((xResolution * implant_fov / headset_fov) + 1) * yPixel; // add +1 for pixel at each end of simulation (ie. -20 deg and 20 deg)
+    
+    int axon_idx_start = axonIdxStartBuffer[loc1D];
+    int axon_idx_end = axonIdxEndBuffer[loc1D];
+    float brightest_segment = 0.0f;
+    
+    for (int m = axon_idx_start; m < axon_idx_end; m++) { // for each axon segment affecting this pixel...
+        float gauss;
+        float segment_brightness = 0.0f;
+        float amp = 0.0f;
+    
+        for (uint j = 0; j < numberElectrodes; j++) { // for each electrode
+            if (electrodesBuffer[j].current > electrodeThreshold) {
+                gauss = axonSegmentGaussToElectrodesBuffer[m * numberElectrodes + j];
+                segment_brightness = segment_brightness + gauss * electrodesBuffer[j].current * axonContributionBuffer[m].brightnessContribution;
+            }
+        }
+    
+        if (abs(segment_brightness) > abs(brightest_segment)) {
+            brightest_segment = segment_brightness;
+        }
+    }
+    
+    if (abs(brightest_segment) < threshold) {
+        brightest_segment = 0;
+    }
+    
+    //brightest_segment = 0.0f; 
+    col.r = brightest_segment;
+    col.b = brightest_segment;
+    col.g = brightest_segment;
+    col.a = 1.0;
+    
+    viewTex[screenCoords] = col;
+}
+    

@@ -46,7 +46,6 @@ public class LetterSwitching : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        bool nextTrial = false;
 
         if (LetterRecognitionExperimentHandler.Instance.currentBlock >= LetterRecognitionExperimentHandler.Instance.blockSettings.Length)
         {

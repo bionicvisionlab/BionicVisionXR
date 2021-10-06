@@ -18,7 +18,7 @@ public class rollforward_with_headbob : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Random.seed = 10;  
+        Random.InitState(10);  
         // Move the object forward along its z axis 1 unit/seconds
         foreach (int value in Enumerable.Range(1, (int) speed))
         {

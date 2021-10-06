@@ -82,6 +82,7 @@ public class VariableManagerScript : MonoBehaviour {
         configurationPath = Application.dataPath + Path.DirectorySeparatorChar + "BionicVisionVR" +
         Path.DirectorySeparatorChar
         + "Coding" + Path.DirectorySeparatorChar + "PremadeConfigurations" + Path.DirectorySeparatorChar+configurationName;
+        
     }
     
     private void Awake()

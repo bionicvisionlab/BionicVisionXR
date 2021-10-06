@@ -12,16 +12,11 @@ public class SceneManagementScript : MonoBehaviour
     public Canvas MainCanvas;
     public Canvas ErrorWarningCanvas;
     public Canvas TrialWarningCanvas; 
-    public Text ErrorWarning; 
+    public Text ErrorWarning;
 
     public void GoToTestScene()
     {
-        SceneManager.LoadScene("PolyRetina");
-    }
-    
-    public void GoToDoorScene()
-    {
-        SceneManager.LoadScene("PolyRetina");
+        SceneManager.LoadScene("SampleExperiment");
     }
     
     public void CheckSubjectLetterRecognitionScene()
@@ -116,7 +111,7 @@ public class SceneManagementScript : MonoBehaviour
         SceneManager.LoadScene("HallwayScene");
     }
 
-    public void reloadIntroScene()
+    public void ReloadIntroScene()
     {
         SceneManager.LoadScene("introScene");
     }

@@ -11,7 +11,6 @@ public class CollisionDetection : MonoBehaviour
     public AudioSource collisionSound;
     private float lastCollision = 0f; 
     
-    //Upon collision with another GameObject, this GameObject will reverse direction
     private void OnTriggerEnter(Collider other)
     {
         if (Time.time - HallwayTaskController.Instance.roundTimer < 61 && Time.time - lastCollision > 1)

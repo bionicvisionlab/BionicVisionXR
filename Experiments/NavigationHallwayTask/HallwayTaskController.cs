@@ -59,7 +59,7 @@ public class HallwayTaskController : MonoBehaviour
         
         fileHandler.AppendLine(subjectFile, "Start time: "+System.DateTime.Now.ToString());
         
-        Random.seed = (VariableManagerScript.Instance.subjectNumber * 10 + vrVersion);
+        Random.InitState(VariableManagerScript.Instance.subjectNumber * 10 + vrVersion);
         locationList = new Locations[NumberBlocks, NumberTrials];
         
         // Sets all locations for each block/trial combo

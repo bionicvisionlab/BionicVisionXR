@@ -82,20 +82,16 @@ namespace BionicVisionVR.Resources
         /// </summary>
         public void SetElectrodeToAxonSegmentGauss()
         {
-            //TODO
-            // 1) Implement multi-threading - (Java sample in BrainPoke (Main line #323 addSynapses(), find C# equivalent of taskExecutor) - Done!
-            // 2) Find axonContributionThresholding value that ensures 
-            
             Timer time = new Timer("Calc Time");
             time.start();
             int numberElectrodes = VariableManagerScript.Instance.numberYelectrodes *
                                    VariableManagerScript.Instance.numberXelectrodes;
 
-            //Memory Limit reached -- Find what's taking memory prior to this as calculations show this shouldn't be happening: 
 
-            computeShader = UnityEngine.Resources.Load<ComputeShader>("AxonElectrodeGauss");
+            computeShader = UnityEngine.Resources.Load<ComputeShader>("ComputeShaders"+Path.DirectorySeparatorChar+"AxonElectrodeGauss");
             Debug.Log(BackendShaderHandler.Instance.axonMap.axonSegmentContributions.Length + "*" + numberElectrodes); 
             int kernel = VariableManagerScript.Instance.debugMode ? computeShader.FindKernel("calculateGaussDebug") : computeShader.FindKernel("calculateGauss");
+            Debug.Log("HERE");
             if ((long) BackendShaderHandler.Instance.axonMap.axonSegmentContributions.Length * (long) numberElectrodes >
                 Int32.MaxValue || BackendShaderHandler.Instance.axonMap.axonSegmentContributions.Length * numberElectrodes == 0)
             {

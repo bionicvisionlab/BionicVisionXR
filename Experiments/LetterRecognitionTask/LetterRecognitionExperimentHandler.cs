@@ -15,13 +15,6 @@ public class LetterRecognitionExperimentHandler : MonoBehaviour
     
     public int currentTrial = 0;
     public int currentBlock = 0;
-    
-    /*public float[] rhoSettings = new float[] {50f, 100f}; 
-    public float[] lambdaSettings = new float[] {50f, 100f};
-    public int[] electrode_spacing_Settings = new int[] {512}; 
-    public int[] x_electrode_count_Settings = new int[] {10, 20}; 
-    public int[] y_electrode_count_Settings = new int[] {10, 20};*/
-    
 
     public char[] letterArray = new char[0];
     public bool[] randomizedArray = new bool[0]; 
@@ -53,7 +46,6 @@ public class LetterRecognitionExperimentHandler : MonoBehaviour
         
         fileHandler.AppendLine(LetterRecognitionExperimentHandler.Instance.subjectFile, "Start time: "+System.DateTime.Today.ToString()+": "+System.DateTime.Now.ToString());
         
-        int blockCount = 0; 
         
         //used to randomize blocks, decided not to
         /*for (int t = 0; t < blockSettings.Length; t++ )
@@ -102,7 +94,7 @@ public class LetterRecognitionExperimentHandler : MonoBehaviour
 
     private void setLetterArray()
     {
-        Random.seed = 10 * VariableManagerScript.Instance.subjectNumber;
+        Random.InitState(10 * VariableManagerScript.Instance.subjectNumber);
        /* for (int i = 0; i < 26 * 3; i++)
         {
             letterArray[i] = (char)('a'+ (i / 3));
