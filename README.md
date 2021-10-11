@@ -16,6 +16,8 @@ BionicVisionVR: For everything related to the bionic vision simulation
 
 Environment: Physical assets used across all experiments in the environment
 
+Experiments: Contains code to handle block randomization, camera tracking, subject file generations, etc.  See the sample experiment for the latest example. 
+
 Other: Packages required to run the simulation.  For example, the first person movement script or VR integration packages. 
 
 Every individual experiment should have its own folder that contains everything required for that experiment. If there are multiple experiments that use the same script (for example, the script that turns the lights on/off), that script should be moved to the "Other" folder.  If there are multiple experiments using the same physical asset, it should be moved to the Environment folder. 
