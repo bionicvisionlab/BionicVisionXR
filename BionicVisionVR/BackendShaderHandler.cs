@@ -145,7 +145,6 @@ public class BackendShaderHandler : MonoBehaviour {
      
       private void OnRenderImage(RenderTexture source, RenderTexture destination)
     {
-        Debug.Log("A");
         if (VariableManagerScript.Instance.runShaders)
         {
             if (currentFrame == 0)
@@ -235,16 +234,14 @@ public class BackendShaderHandler : MonoBehaviour {
                     new WaitForSeconds(5);
                     
             }
-
-            Debug.Log("B");
+            
                 if (!(lastPredefinedBlock.Equals(VariableManagerScript.Instance.predefinedSettings)) && VariableManagerScript.Instance.usePreDefinedBlock)
                 {
                     UpdateConfiguration(
                         BlockSettings.GetPreDefinedBlockSettings(VariableManagerScript.Instance.predefinedSettings));
                     
                 }
-
-                Debug.Log("C"); 
+                
 
 //*******************************************************************************************************//
             SetShaderVariables();
@@ -327,7 +324,6 @@ public class BackendShaderHandler : MonoBehaviour {
         }
         else
         {
-            Debug.Log("B");
             Graphics.Blit(source,destination);
         }
     }
