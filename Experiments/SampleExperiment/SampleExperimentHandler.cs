@@ -32,6 +32,9 @@ namespace Experiments.SampleExperiment
 
         public void Update()
         {
+            if (ExperimentHandler.Instance.GetBlockTrialSingleDimension() > numberOfPracticeTrials)
+                VariableManagerScript.Instance.runShaders = true; 
+            
             if (shouldWriteToFile1)
             {
                 ExperimentHandler.Instance.WriteToTaggedFile("file1", "Trial "+ ExperimentHandler.Instance.currentTrial+ "  complete!");
