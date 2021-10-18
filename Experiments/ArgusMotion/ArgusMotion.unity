@@ -1260,6 +1260,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 688712554}
+  - component: {fileID: 688712555}
   m_Layer: 0
   m_Name: ArgusMotionExperiment
   m_TagString: Untagged
@@ -1282,6 +1283,37 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &688712555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 688712553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 323f6169a2404ef4293c9be9671a1803, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Settings:
+    EyeTrackingFilter: {fileID: 0}
+    StandaloneEyeTrackingProviders:
+    - TypeName: HTCProvider
+    - TypeName: Tobii.XR.TobiiProvider
+    - TypeName: Tobii.XR.NoseDirectionProvider
+    AndroidEyeTrackingProviders:
+    - TypeName: Tobii.XR.TobiiProvider
+    - TypeName: Tobii.XR.PicoXRProvider
+    - TypeName: Tobii.XR.NoseDirectionProvider
+    - TypeName: Tobii.XR.MouseProvider
+    LayerMask:
+      serializedVersion: 2
+      m_Bits: 4294967295
+    HowLongToKeepCandidatesInSeconds: 1
+    AdvancedEnabled: 0
+    OcumenLicense: 
+    PopupLicenseValidationErrors: 0
+    LicenseAsset: {fileID: 0}
 --- !u!1 &691140927
 GameObject:
   m_ObjectHideFlags: 0
@@ -3664,6 +3696,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1506962638143161931, guid: cb4d44cec96f5714689dd2109043fae4, type: 3}
+      propertyPath: m_BackGroundColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1506962638143161931, guid: cb4d44cec96f5714689dd2109043fae4, type: 3}
+      propertyPath: m_BackGroundColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1506962638143161931, guid: cb4d44cec96f5714689dd2109043fae4, type: 3}
+      propertyPath: m_BackGroundColor.r
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1506962638143161940, guid: cb4d44cec96f5714689dd2109043fae4, type: 3}
       propertyPath: m_LocalPosition.y
       value: 500
@@ -3676,6 +3720,10 @@ PrefabInstance:
       propertyPath: field of view
       value: 90
       objectReference: {fileID: 0}
+    - target: {fileID: 1617954255383404272, guid: cb4d44cec96f5714689dd2109043fae4, type: 3}
+      propertyPath: vrCamera
+      value: 
+      objectReference: {fileID: 191026556}
     - target: {fileID: 1620924803149315171, guid: cb4d44cec96f5714689dd2109043fae4, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0
@@ -3713,10 +3761,18 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1635283479580380743, guid: cb4d44cec96f5714689dd2109043fae4, type: 3}
+      propertyPath: m_Constraints
+      value: 112
+      objectReference: {fileID: 0}
+    - target: {fileID: 1635283479580380743, guid: cb4d44cec96f5714689dd2109043fae4, type: 3}
       propertyPath: m_IsKinematic
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1699083758353218477, guid: cb4d44cec96f5714689dd2109043fae4, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1721903890168296049, guid: cb4d44cec96f5714689dd2109043fae4, type: 3}
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
@@ -3733,7 +3789,47 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8206232294979456390, guid: cb4d44cec96f5714689dd2109043fae4, type: 3}
+      propertyPath: gazeLock
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8206232294979456390, guid: cb4d44cec96f5714689dd2109043fae4, type: 3}
+      propertyPath: smoothMove
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8206232294979456390, guid: cb4d44cec96f5714689dd2109043fae4, type: 3}
+      propertyPath: temporalModel
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8206232294979456390, guid: cb4d44cec96f5714689dd2109043fae4, type: 3}
+      propertyPath: blurFinalImage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8206232294979456390, guid: cb4d44cec96f5714689dd2109043fae4, type: 3}
+      propertyPath: gazeLockShader
+      value: 
+      objectReference: {fileID: 2100000, guid: 0868eb8cdec80d74e8cb6d20d01f7a27, type: 2}
+    - target: {fileID: 8206232294979456390, guid: cb4d44cec96f5714689dd2109043fae4, type: 3}
+      propertyPath: downscaleFactor
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8206232294979456390, guid: cb4d44cec96f5714689dd2109043fae4, type: 3}
+      propertyPath: calculateAxonMap
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8206232294979456390, guid: cb4d44cec96f5714689dd2109043fae4, type: 3}
       propertyPath: loadFromBinaries
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8206232294979456390, guid: cb4d44cec96f5714689dd2109043fae4, type: 3}
+      propertyPath: pulsatedWaitTime
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8206232294979456390, guid: cb4d44cec96f5714689dd2109043fae4, type: 3}
+      propertyPath: useBionicVisionShader
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8206232294979456391, guid: cb4d44cec96f5714689dd2109043fae4, type: 3}
+      propertyPath: useHMD
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8206232295109747588, guid: cb4d44cec96f5714689dd2109043fae4, type: 3}
