@@ -1,3 +1,5 @@
+//todo implement "ReadFromString" function for PredefinedBlocks.  Simplify into GUI_DEVICE_POS_ROT_RHO_LAM
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
