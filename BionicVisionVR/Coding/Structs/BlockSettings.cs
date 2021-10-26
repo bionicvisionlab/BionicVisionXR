@@ -30,6 +30,34 @@ namespace Assets.BionicVisionVR.Coding.Structs
             BlockSettings returnBlock;
             switch (block)
             {
+               case PreDefinedBlocks.ArgusMotion1: // Axon Map
+                    returnBlock = new BlockSettings(300, 1000, 10, 6, 575, 0, 0, 0); 
+                    break;
+				case PreDefinedBlocks.ArgusMotion2:
+                    returnBlock = new BlockSettings(300, 1000, 10, 6, 575, 0, 0, 45); 
+                    break;
+               case PreDefinedBlocks.ArgusMotion3:
+                    returnBlock = new BlockSettings(300, 1000, 10, 6, 575, 0, 0, 90); 
+                    break;
+				case PreDefinedBlocks.ArgusMotion4: // Scoreboard
+                    returnBlock = new BlockSettings(100, 50, 10, 6, 575, 0, 0, 0); 
+                    break;
+               case PreDefinedBlocks.ArgusMotion5: 
+                    returnBlock = new BlockSettings(100, 50, 10, 6, 575, 0, 0, 45); 
+                    break;
+ 				case PreDefinedBlocks.ArgusMotion6: 
+                    returnBlock = new BlockSettings(100, 50, 10, 6, 575, 0, 0, 90); 
+                    break;
+				case PreDefinedBlocks.ArgusMotion7: // Patient 1 
+                    returnBlock = new BlockSettings(315, 500, 10, 6, 575, -1896, -542,-44); 
+                    break;
+               case PreDefinedBlocks.ArgusMotion8: // Patient 2
+                    returnBlock = new BlockSettings(144, 1414, 10, 6, 575, -1203, 280, -35); 
+                    break;
+				case PreDefinedBlocks.ArgusMotion9: // Patient 3
+                    returnBlock = new BlockSettings(437, 1420, 10, 6, 575, -1945, 469, -34); 
+                    break;
+
                 case PreDefinedBlocks.LetterTask1: 
                     returnBlock = new BlockSettings(100, 50, 10, 6, 575, 0, 0, 45); 
                     break;

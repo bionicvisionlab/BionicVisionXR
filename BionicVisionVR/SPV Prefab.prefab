@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 1617954255383404272}
   - component: {fileID: 1617954255383404273}
   - component: {fileID: 1617954255383404274}
+  - component: {fileID: 2002579100188828270}
   m_Layer: 0
   m_Name: Player Camera
   m_TagString: MainCamera
@@ -107,9 +108,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4aa76f64a08bdf84b82c92d89e3d254c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainCamera: {fileID: 1601590946074353681}
-  miniCamera: {fileID: 0}
   pleaseWait: {fileID: 8206232295687645441}
+  vrCamera: {fileID: 0}
   simulation_xMin: 0
   simulation_xMax: 0
   simulation_yMin: 0
@@ -142,6 +142,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c30a2316e98e1dc4b97e432a1301f85c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2002579100188828270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1617954255383404275}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3ebb82fb7ad12e4aba1800b41b1840c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeInterval: 0.5
 --- !u!1 &1618020613978397639
 GameObject:
   m_ObjectHideFlags: 0
@@ -207,7 +220,7 @@ Transform:
   m_Children:
   - {fileID: 1620924803149315171}
   m_Father: {fileID: 8206232295109747643}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: -180.00002, z: 0}
 --- !u!82 &1681396118012650925
 AudioSource:
@@ -543,6 +556,11 @@ MonoBehaviour:
   calculateAxonMap: 1
   useTemporal: 0
   randomShuffle: 0
+  gazeLockShader: {fileID: 0}
+  gazeLock: 1
+  smoothMove: 1
+  smoothMoveSpeed: 18
+  allElectrodesMax: 0
   debugMode: 0
   showElectrodes: 0
   specificPixelToDebug: 0
@@ -563,6 +581,8 @@ MonoBehaviour:
   downscaleFactor: 1
   number_axons: 300
   number_axon_segments: 300
+  temporalModel: 0
+  pulsatedWaitTime: 0
   frameDuration: 0.011111
   pulseFrequency: 20
   pulseDuration: 0.00045
@@ -617,8 +637,8 @@ Transform:
   m_LocalPosition: {x: 0.061058298, y: 1.2728659, z: -4.318996}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1621177050623494045}
   - {fileID: 1506962638143161940}
+  - {fileID: 1621177050623494045}
   - {fileID: 8206232294979456384}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -812,7 +832,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7281100425031418850, guid: 658d0650d09c78dc8a78744bec1dec7c, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7281100425031418850, guid: 658d0650d09c78dc8a78744bec1dec7c, type: 3}
       propertyPath: m_LocalPosition.x

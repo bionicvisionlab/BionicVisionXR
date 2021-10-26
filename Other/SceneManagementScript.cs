@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using BionicVisionVR.Coding.Resources;
 using UnityEngine;
 using UnityEngine.UI; 
 using UnityEngine.SceneManagement;
@@ -18,7 +19,7 @@ public class SceneManagementScript : MonoBehaviour
     {
         SceneManager.LoadScene("SampleExperiment");
     }
-    
+
     public void CheckSubjectLetterRecognitionScene()
     {
         int subjectNumber = 0; 
@@ -61,6 +62,26 @@ public class SceneManagementScript : MonoBehaviour
             VariableManagerScript.Instance.useLeftEye = true; 
         }
         SceneManager.LoadScene("ComputerLetterDetectionTask");
+    }
+    
+    public void GoToArgusMotionScene()
+    {
+        VariableManagerScript.Instance.subjectNumber = int.Parse(SubjectNumberInputField.text);
+        
+        if (BlockNumberInputField.text != "")
+        {
+            ExperimentHandler.Instance.currentBlock = (int.Parse(BlockNumberInputField.text) - 1);
+        }
+        if (TrialNumberInputField.text != "")
+        {
+            ExperimentHandler.Instance.currentTrial = (int.Parse(TrialNumberInputField.text) - 1);
+        }
+
+        if (EyeSelection.value == 1)
+        {
+            VariableManagerScript.Instance.useLeftEye = true; 
+        }
+        SceneManager.LoadScene("ArgusMotion");
     }
     
     public void CheckSubjectHallwayScene()
