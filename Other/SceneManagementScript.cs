@@ -1,9 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using BionicVisionVR.Coding.Resources;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.UI; 
 using UnityEngine.SceneManagement;
 
