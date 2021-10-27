@@ -48,7 +48,7 @@ public class GUIManager : MonoBehaviour
     private int electrodeIndex = 0;
     private int spacingIndex = 0;
 
-    private void Awake()
+    private void Start()
     {
         ChangeDevice(0);
     }
@@ -5170,7 +5170,9 @@ public class GUIManager : MonoBehaviour
         }
 
         // Text to change is at index 2, 5, 8, 11 in uiComponents
+        Debug.Log("Change Position");
         uiComponents[2].GetComponent<Text>().text = "Position: (" + positionX[positionIndex] + ", " + positionY[positionIndex] + ")";
+        Debug.Log(uiComponents[2].GetComponent<Text>().text );
         VariableManagerScript.Instance.xPosition = positionX[positionIndex];
         VariableManagerScript.Instance.yPosition = positionY[positionIndex];
         ChangeConfiguration(deviceName);
