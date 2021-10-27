@@ -20,6 +20,7 @@ public class VariableManagerScript : MonoBehaviour {
     public bool useBionicVisionShader = true; 
     public Material perceptShaderMaterial;
     public bool blurFinalImage= true;
+
     public Material blurShader; 
     public ComputeShader randomShuffler;
     public bool useAxonMap = false;
@@ -27,8 +28,14 @@ public class VariableManagerScript : MonoBehaviour {
     public bool useTemporal = false;
     public bool randomShuffle = false;
     
+    [Header("Gaze Lock")]
+    public Material gazeLockShader; 
+    public bool gazeLock = true; 
+    public bool smoothMove = true;
+    [Range(1, 30)] public int smoothMoveSpeed = 18;
 
-    [Header("Debug Settings")]
+    [Header("Debug Settings")] 
+    public bool allElectrodesMax = false; 
     public bool debugMode = false;
     public bool showElectrodes = false;
     public int specificPixelToDebug = 0;
@@ -37,13 +44,7 @@ public class VariableManagerScript : MonoBehaviour {
     [Header("Electrode Array Settings")]
      public int numberXelectrodes = 10;
      public int numberYelectrodes = 10;
-   
-   //TODO ?
-   //public float implant_fovX =  40.0f;
-    //public float implant_fovY =  40.0f;
-    //public float headset_fovX =  55.0f;
-    //public float headset_fovY =  55.0f;
-    public float implant_fov = 40.0f; 
+     public float implant_fov = 40.0f; 
     public float headset_fov = 55.0f;
     public float rotation = 0;
     public float xPosition = 0;
@@ -58,9 +59,12 @@ public class VariableManagerScript : MonoBehaviour {
     public float axonContributionThreshold = .0001f; 
      public int downscaleFactor = 1;
      public int number_axons = 300;
-     public int number_axon_segments = 300; 
-    
-     [Header("Temporal model settings")]
+     public int number_axon_segments = 300;
+
+     [Header("Temporal model settings")] 
+     public TemporalModels temporalModel =TemporalModels.None;
+
+     public double pulsatedWaitTime; 
     public float frameDuration = .011111f; //(sec) Should match screen refresh rate (11.111ms for HTC Vive pro)
     public float pulseFrequency = 20.0f; //(hz) How many times a second the pulse occurs
     public float pulseDuration = 0.00045f; // Single pulse duration

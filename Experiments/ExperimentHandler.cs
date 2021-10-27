@@ -63,6 +63,8 @@ namespace BionicVisionVR.Coding.Resources
                 }
             }
 
+            WriteToAllTaggedFiles(blockSettings[currentBlock].ToString()); 
+
             this.blockSettings = blockSettings;
             this.numberOfTrials = numberOfTrials;
         }
@@ -70,6 +72,11 @@ namespace BionicVisionVR.Coding.Resources
         public void WriteToTaggedFile(string fileTag, string toWrite)
         {
             fileHandler.AppendLine(subjectFile.Replace(".csv", "_" + fileTag + ".csv"), toWrite); 
+        }
+
+        public void WriteToSubjectFile(string toWrite)
+        {
+            fileHandler.AppendLine(subjectFile, toWrite); 
         }
 
         public void WriteToAllTaggedFiles(string toWrite)
@@ -112,7 +119,7 @@ namespace BionicVisionVR.Coding.Resources
                 currentTrial = 0; 
             }
             
-            if (VariableManagerScript.Instance.predefinedSettings != blockSettings[currentBlock])
+            if (currentBlock<blockSettings.Length && VariableManagerScript.Instance.predefinedSettings != blockSettings[currentBlock])
             {
                 WriteToAllTaggedFiles(blockSettings[currentBlock].ToString());
                 VariableManagerScript.Instance.predefinedSettings = blockSettings[currentBlock];
@@ -121,6 +128,12 @@ namespace BionicVisionVR.Coding.Resources
 
             trialTimer = Time.time; 
         }
+
+		public bool NextTrialCheckForNewBlock(){
+			int thisBlock = currentBlock;
+			NextTrial();
+			return thisBlock == currentBlock; 
+		}
 
         private void Awake()
         {

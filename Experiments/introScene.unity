@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -663,9 +663,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Test Scene
-
-'
+  m_Text: Argus Motion
 --- !u!222 &176881686
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2399,6 +2397,7 @@ GameObject:
   m_Component:
   - component: {fileID: 816615064}
   - component: {fileID: 816615063}
+  - component: {fileID: 816615067}
   - component: {fileID: 816615065}
   - component: {fileID: 816615066}
   m_Layer: 0
@@ -2423,7 +2422,7 @@ MonoBehaviour:
   subjectNumber: -1
   usePreDefinedBlock: 1
   predefinedSettings: 5
-  loadFromBinaries: 0
+  loadFromBinaries: 1
   useLeftEye: 0
   runShaders: 0
   preprocessingShaderMaterial: {fileID: 2100000, guid: 76894b5f671643a08c19776e63585171, type: 2}
@@ -2436,6 +2435,11 @@ MonoBehaviour:
   calculateAxonMap: 1
   useTemporal: 0
   randomShuffle: 0
+  gazeLockShader: {fileID: 0}
+  gazeLock: 0
+  smoothMove: 1
+  smoothMoveSpeed: 18
+  allElectrodesMax: 0
   debugMode: 0
   showElectrodes: 0
   specificPixelToDebug: 0
@@ -2453,9 +2457,11 @@ MonoBehaviour:
   lambda: 100
   threshold: 0.0001
   axonContributionThreshold: 0.0001
-  downscaleFactor: 3
+  downscaleFactor: 5
   number_axons: 300
   number_axon_segments: 300
+  temporalModel: 0
+  pulsatedWaitTime: 0
   frameDuration: 0.011111
   pulseFrequency: 20
   pulseDuration: 0.00045
@@ -2523,6 +2529,24 @@ MonoBehaviour:
   collisionCounter: 0
   roundTimer: 0
   blockSettings: 09000000000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f000000100000001100000012000000130000001400000015000000160000001700000018000000190000001a000000
+--- !u!114 &816615067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 816615062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1508915c22b4926bdbb89656e3313f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useHMD: 1
+  cameraTracking: 1
+  currentBlock: 0
+  currentTrial: 0
+  trialTimer: 0
+  subjectFile: 
 --- !u!1 &827101970
 GameObject:
   m_ObjectHideFlags: 0
@@ -6675,26 +6699,14 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 0
+  m_Interactable: 1
   m_TargetGraphic: {fileID: 1911469612}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 827101971}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: setget
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 903467028}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: GoToTestScene
+        m_TargetAssemblyTypeName: SceneManagementScript, Assembly-CSharp
+        m_MethodName: GoToArgusMotionScene
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

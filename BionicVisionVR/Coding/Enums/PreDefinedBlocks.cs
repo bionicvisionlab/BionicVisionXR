@@ -4,6 +4,15 @@ namespace BionicVisionVR.Resources
 {
     public enum PreDefinedBlocks
     {
+        ArgusMotion1,
+        ArgusMotion2,
+        ArgusMotion3,
+        ArgusMotion4,
+        ArgusMotion5,
+        ArgusMotion6,
+        ArgusMotion7,
+        ArgusMotion8,
+        ArgusMotion9,
         LetterTask1, 
         LetterTask2,
         LetterTask3,

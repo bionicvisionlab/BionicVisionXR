@@ -7,25 +7,23 @@ using BionicVisionVR.Resources;
 using BionicVisionVR.Structs;
 using UnityEngine;
 using UnityEngine.UI;
+using Tobii.XR;
 using Random = UnityEngine.Random;
 
-public class BackendShaderHandler : MonoBehaviour { 
-
+/// <summary>
+/// Attach this to your VR Camera.
+/// Initializes and runs all required shaders for SPV
+/// </summary>
+public class BackendShaderHandler : MonoBehaviour {
     public static BackendShaderHandler Instance { get; private set; }
-
-    public Camera mainCamera;
-    public Camera miniCamera;
- 
-
-    public RawImage pleaseWait; 
     
+    public RawImage pleaseWait;
     public Electrode[] electrodes;
+    private Electrode[] allMaxElectrodes; 
     public AxonMap axonMap = new AxonMap();
     public PulseTrain pulseTrain;
-    //public float[] axonSegmentGaussToElectrodes;
-    
     public ComputeBuffer axonSegmentGaussToElectrodes;
-
+    [SerializeField] private Camera vrCamera;
     public float simulation_xMin;
     public float simulation_xMax;
     public float simulation_yMin;
@@ -46,56 +44,177 @@ public class BackendShaderHandler : MonoBehaviour {
     private ComputeBuffer axonIdxStartBuffer;
     private ComputeBuffer axonIdxEndBuffer;
     
+	private RenderTexture processedTexture; 
+	private RenderTexture temp; 
+	private RenderTexture blackScreen; 
+
     private int currentFrame = 0;
     private int debugFrame = 0;
     private int[] randomArray;
-    private PreDefinedBlocks lastPredefinedBlock = new PreDefinedBlocks(); 
+    private PreDefinedBlocks lastPredefinedBlock = new PreDefinedBlocks();
+    private Vector3 _lastGazeDirection;
 
-    private void InitializeBuffers()
+	private int startingResX;
+	private int startingResY; 
+
+	private double lastDisplayFrame;
+    private double minimumFrameTime = 1.0 / 60.0;
+    private bool displayed = false;
+
+    private void OnRenderImage(RenderTexture source, RenderTexture destination)
     {
-        simulationAreaArrayLength =
-            (int) (Math.Ceiling(VariableManagerScript.Instance.implant_fov * xResolution /
-                                VariableManagerScript.Instance.headset_fov)) *
-            (int) (Math.Ceiling(VariableManagerScript.Instance.implant_fov * yResolution /
-                                VariableManagerScript.Instance.headset_fov));
-        Debug.Log("Sim size: " + simulationAreaArrayLength);
-
-        electrodesBuffer =
-            new ComputeBuffer(electrodes.Length,
-                System.Runtime.InteropServices.Marshal.SizeOf(typeof(Electrode)), ComputeBufferType.Default);
-        Graphics.SetRandomWriteTarget(2, electrodesBuffer, true);
-        electrodesBuffer.SetData(electrodes);
-
-        if (VariableManagerScript.Instance.useTemporal)
+        if (VariableManagerScript.Instance.temporalModel == TemporalModels.Pulsated &&
+            Time.realtimeSinceStartupAsDouble - lastDisplayFrame < VariableManagerScript.Instance.pulsatedWaitTime)
         {
-            SimulationVariables[] simulationVariableArray = new SimulationVariables[simulationAreaArrayLength];
-            for (int i = 0; i < simulationAreaArrayLength; i++)
-                simulationVariableArray[i] = new SimulationVariables(0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f);
+            if (Time.realtimeSinceStartup - lastDisplayFrame > minimumFrameTime && displayed)
+                Graphics.Blit(blackScreen, destination);
+            else
+            {
+                Graphics.Blit(processedTexture, destination);
+                displayed = true;
+                //Debug.Log("Displayed: "+Time.realtimeSinceStartupAsDouble); 
+            }
 
-            simulationVariablesBuffer = new ComputeBuffer(simulationAreaArrayLength,
-                System.Runtime.InteropServices.Marshal.SizeOf(typeof(SimulationVariables)), ComputeBufferType.Default);
-            Graphics.SetRandomWriteTarget(1, simulationVariablesBuffer, true);
-            simulationVariablesBuffer.SetData(simulationVariableArray);
-        }
+            currentFrame++; 
+		}
+		else{
+            if (VariableManagerScript.Instance.runShaders)
+            {
+                lastDisplayFrame = Time.realtimeSinceStartupAsDouble;
+                RenderTexture.ReleaseTemporary(processedTexture); 
+           	    if (currentFrame == 0)
+                    RunStartup(source);
 
-        if (VariableManagerScript.Instance.useAxonMap)
-        {
-            axonContributionBuffer =
-                new ComputeBuffer(axonMap.axonSegmentContributions.Length,
-                    System.Runtime.InteropServices.Marshal.SizeOf(typeof(AxonSegment)), ComputeBufferType.Default);
-            axonContributionBuffer.SetData(axonMap.axonSegmentContributions);
+           	    if (!(lastPredefinedBlock.Equals(VariableManagerScript.Instance.predefinedSettings)) && VariableManagerScript.Instance.usePreDefinedBlock)
+                    UpdateConfiguration(BlockSettings.GetPreDefinedBlockSettings(VariableManagerScript.Instance.predefinedSettings));
+                
+           	    SetShaderVariables();
+                
+           	    PerformDownscale(source); 
 
-            axonIdxStartBuffer = new ComputeBuffer(axonMap.axonIdxStart.Length,System.Runtime.InteropServices.Marshal.SizeOf(typeof(int)), ComputeBufferType.Default);
-            axonIdxStartBuffer.SetData(axonMap.axonIdxStart);
-            
-            axonIdxEndBuffer = new ComputeBuffer(axonMap.axonIdxEnd.Length,System.Runtime.InteropServices.Marshal.SizeOf(typeof(int)), ComputeBufferType.Default);
-            axonIdxEndBuffer.SetData(axonMap.axonIdxEnd);
-            
-        }
+			    RunPreprocessing();
 
+                RandomizeElectrodes(); 
+
+                GeneratePercepts(); 
+                
+                GazeLock();
+                
+                BlurFinal();
+
+                ElectrodeDebug();
+                Graphics.Blit(processedTexture, destination);
+                displayed = false; 
+                currentFrame++;
+			    lastDisplayFrame = Time.realtimeSinceStartupAsDouble; 
+                //Debug.Log(Time.realtimeSinceStartupAsDouble); 
+                lastPredefinedBlock = VariableManagerScript.Instance.predefinedSettings;
+            }
+
+            else
+                Graphics.Blit(source,destination);
+		}
     }
-    
-     private void SetShaderVariables()
+
+    private void RunStartup(RenderTexture source)
+    {
+        pleaseWait.enabled = true;
+		startingResX = source.width;
+		startingResY = source.height; 
+        GetPredefinedBlockSettings();
+        SetSimulationBounds(source); 
+
+		blackScreen = new RenderTexture(source.width, source.height, 0); 
+		
+        if (VariableManagerScript.Instance.useTemporal)
+            pulseTrainHandler.SetPulseTrain();
+
+        LoadMapping(); 
+
+        //Convert retinal coordinates to screen positions for use in shader:
+        if (VariableManagerScript.Instance.debugMode)
+            axonMapHandler.AxonSegmentsToScreenPosCoords();
+        electrodesHandler.ElectrodeGridToScreenPosCoords();
+
+        allMaxElectrodes = electrodes;
+        for (int i = 0; i < allMaxElectrodes.Length; i++)
+        {
+            allMaxElectrodes[i].current = 1; 
+        }
+
+        InitializeBuffers();
+                    
+        SetRandomizerArray();
+                    
+        GC.Collect();
+        pleaseWait.enabled = false;
+    }
+
+    private void SetSimulationBounds(RenderTexture source)
+    {
+        xResolution =
+            (int) Math.Floor(
+                (double) source.width / (double) VariableManagerScript.Instance.downscaleFactor);
+        yResolution = (int) Math.Floor((double) source.height /
+                                       (double) VariableManagerScript.Instance.downscaleFactor);
+
+        Debug.Log("X-res" + xResolution);
+        Debug.Log("Y-res" + yResolution);
+
+        simulation_xyStep =
+            VariableManagerScript.Instance.headset_fov / xResolution;
+
+        float xCenter = VariableManagerScript.Instance.xPosition;
+        int numberStepsPerDirection =
+            (int) ((VariableManagerScript.Instance.implant_fov /
+                    (2 * simulation_xyStep)) - 1);
+
+        simulation_xMin =
+            (xCenter - .5f * simulation_xyStep) -
+            (simulation_xyStep * (numberStepsPerDirection));
+        simulation_xMax =
+            (xCenter + .5f * simulation_xyStep) +
+            (simulation_xyStep * (numberStepsPerDirection));
+        float yCenter = VariableManagerScript.Instance.yPosition;
+        numberStepsPerDirection = (int) ((VariableManagerScript.Instance.implant_fov /
+                                          (2 * simulation_xyStep)) - 1);
+
+        simulation_yMin =
+            (yCenter - .5f * simulation_xyStep) -
+            (simulation_xyStep * (numberStepsPerDirection));
+        simulation_yMax =
+            (yCenter + .5f * simulation_xyStep) +
+            (simulation_xyStep * (numberStepsPerDirection));
+    }
+
+    private void SetRandomizerArray()
+    {
+        randomArray = Enumerable.Range(0, electrodes.Length).ToArray();
+        for (int t = 0; t < randomArray.Length; t++)
+        {
+            int tmp = randomArray[t];
+            int r = Random.Range(t, randomArray.Length);
+            randomArray[t] = randomArray[r];
+            randomArray[r] = tmp;
+        }
+    }
+
+	private void LoadMapping()
+	{
+		if (!VariableManagerScript.Instance.loadFromBinaries || !File.Exists(VariableManagerScript.Instance.configurationPath + "_axonElectrodeGauss"))
+        {
+            electrodesHandler.SetRectangularGrid();
+            if (VariableManagerScript.Instance.useAxonMap)
+            {
+                axonMapHandler.SetAxonMap();
+                axonMapHandler.SetElectrodeToAxonSegmentGauss();
+            }
+        }
+        else
+            LoadBinaryData();
+	}
+
+    private void SetShaderVariables()
     {
         VariableManagerScript.Instance.preprocessingShaderMaterial.SetBuffer("electrodesBuffer", electrodesBuffer);
         VariableManagerScript.Instance.preprocessingShaderMaterial.SetInt("numberElectrodes", electrodes.Length);
@@ -142,193 +261,166 @@ public class BackendShaderHandler : MonoBehaviour {
         VariableManagerScript.Instance.perceptShaderMaterial.SetFloat("maximumScreenPositionY", unitConverter.degreeToScreenPos(simulation_yMax));
         VariableManagerScript.Instance.perceptShaderMaterial.SetInt("simulatedColumns", (int) Math.Ceiling((double) yResolution ));
     }
-     
-      private void OnRenderImage(RenderTexture source, RenderTexture destination)
+      
+    private void InitializeBuffers()
     {
-        if (VariableManagerScript.Instance.runShaders)
+        simulationAreaArrayLength =
+            (int) (Math.Ceiling(VariableManagerScript.Instance.implant_fov * xResolution /
+                                VariableManagerScript.Instance.headset_fov)) *
+            (int) (Math.Ceiling(VariableManagerScript.Instance.implant_fov * yResolution /
+                                VariableManagerScript.Instance.headset_fov));
+        Debug.Log("Sim size: " + simulationAreaArrayLength);
+
+        electrodesBuffer =
+            new ComputeBuffer(electrodes.Length,
+                System.Runtime.InteropServices.Marshal.SizeOf(typeof(Electrode)), ComputeBufferType.Default);
+        Graphics.SetRandomWriteTarget(2, electrodesBuffer, true);
+        electrodesBuffer.SetData(electrodes);
+
+        if (VariableManagerScript.Instance.useTemporal)
         {
-            if (currentFrame == 0)
-            {
+            SimulationVariables[] simulationVariableArray = new SimulationVariables[simulationAreaArrayLength];
+            for (int i = 0; i < simulationAreaArrayLength; i++)
+                simulationVariableArray[i] = new SimulationVariables(0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f);
 
-                GetPredefinedBlockSettings();
-
-                    pleaseWait.enabled = true;
-
-                    xResolution =
-                        (int) Math.Floor(
-                            (double) source.width / (double) VariableManagerScript.Instance.downscaleFactor);
-                    yResolution = (int) Math.Floor((double) source.height /
-                                                   (double) VariableManagerScript.Instance.downscaleFactor);
-
-                    Debug.Log("X-res" + xResolution);
-                    Debug.Log("Y-res" + yResolution);
-
-                    simulation_xyStep =
-                        VariableManagerScript.Instance.headset_fov / xResolution;
-
-                    float xCenter = VariableManagerScript.Instance.xPosition;
-                    int numberStepsPerDirection =
-                        (int) ((VariableManagerScript.Instance.implant_fov /
-                                (2 * simulation_xyStep)) - 1);
-
-                    simulation_xMin =
-                        (xCenter - .5f * simulation_xyStep) -
-                        (simulation_xyStep * (numberStepsPerDirection));
-                    simulation_xMax =
-                        (xCenter + .5f * simulation_xyStep) +
-                        (simulation_xyStep * (numberStepsPerDirection));
-                    float yCenter = VariableManagerScript.Instance.yPosition;
-                    numberStepsPerDirection = (int) ((VariableManagerScript.Instance.implant_fov /
-                                                      (2 * simulation_xyStep)) - 1);
-
-                    simulation_yMin =
-                        (yCenter - .5f * simulation_xyStep) -
-                        (simulation_xyStep * (numberStepsPerDirection));
-                    simulation_yMax =
-                        (yCenter + .5f * simulation_xyStep) +
-                        (simulation_xyStep * (numberStepsPerDirection));
-
-                    if (VariableManagerScript.Instance.useTemporal)
-                        pulseTrainHandler.SetPulseTrain();
-
-                    if (!VariableManagerScript.Instance.loadFromBinaries ||
-                        !File.Exists(VariableManagerScript.Instance.configurationPath + "_axonElectrodeGauss"))
-                    {
-                        electrodesHandler.SetRectangularGrid();
-                        if (VariableManagerScript.Instance.useAxonMap)
-                        {
-                            axonMapHandler.SetAxonMap();
-                            axonMapHandler.SetElectrodeToAxonSegmentGauss();
-                        }
-                    }
-                    else
-                    {
-                        LoadBinaryData();
-                    }
-
-                    //Convert retinal coordinates to screen positions for use in shader:
-                    if (VariableManagerScript.Instance.debugMode)
-                        axonMapHandler.AxonSegmentsToScreenPosCoords();
-                    electrodesHandler.ElectrodeGridToScreenPosCoords();
-
-
-                    InitializeBuffers();
-                    Debug.Log("X: " + simulation_xMin + "," +
-                              simulation_xMax);
-                    Debug.Log("Y: " + simulation_yMin + "," +
-                              simulation_yMax);
-
-                    GC.Collect();
-                    pleaseWait.enabled = false;
-
-                    randomArray = Enumerable.Range(0, electrodes.Length).ToArray();
-                    for (int t = 0; t < randomArray.Length; t++)
-                    {
-                        int tmp = randomArray[t];
-                        int r = Random.Range(t, randomArray.Length);
-                        randomArray[t] = randomArray[r];
-                        randomArray[r] = tmp;
-                    }
-                    
-                    Debug.Log("Starting, cancel now to avoid resets"); 
-                    new WaitForSeconds(5);
-                    
-            }
-            
-                if (!(lastPredefinedBlock.Equals(VariableManagerScript.Instance.predefinedSettings)) && VariableManagerScript.Instance.usePreDefinedBlock)
-                {
-                    UpdateConfiguration(
-                        BlockSettings.GetPreDefinedBlockSettings(VariableManagerScript.Instance.predefinedSettings));
-                    
-                }
-                
-
-//*******************************************************************************************************//
-            SetShaderVariables();
-            RenderTexture temp = RenderTexture.GetTemporary((int) source.width/VariableManagerScript.Instance.downscaleFactor, 
-                (int) source.height/VariableManagerScript.Instance.downscaleFactor, 0); // create new texture with dimensions from screen's render texture
-            Graphics.Blit(source, temp);
-            
-            RenderTexture temp2 = RenderTexture.GetTemporary((int) temp.width, temp.height, 0);
-            Graphics.Blit(temp, temp2, VariableManagerScript.Instance.preprocessingShaderMaterial);
-            RenderTexture.ReleaseTemporary(temp);
-
-
-            // TODO: Add computer shader that randomize the electrodesBuffer
-            if (VariableManagerScript.Instance.randomShuffle)
-            {
-               
-                var shuffleIndexBuffer = new ComputeBuffer(electrodes.Length, sizeof(int));
-                var tempBuffer = new ComputeBuffer(electrodes.Length, sizeof(float));
-                var shuffleKernel = VariableManagerScript.Instance.randomShuffler.FindKernel("CSMain");
-                
-                shuffleIndexBuffer.SetData(randomArray);
-                VariableManagerScript.Instance.randomShuffler.SetInt("numberElectrodes", electrodes.Length);
-                VariableManagerScript.Instance.randomShuffler.SetBuffer(shuffleKernel,"electrodesBuffer", electrodesBuffer);
-                VariableManagerScript.Instance.randomShuffler.SetBuffer(shuffleKernel,"randomIndex", shuffleIndexBuffer);
-                VariableManagerScript.Instance.randomShuffler.SetBuffer(shuffleKernel,"tempBuffer", tempBuffer);
-                
-                VariableManagerScript.Instance.randomShuffler.Dispatch(shuffleKernel, electrodes.Length/1024 + 1 , 1, 1);
-                
-                tempBuffer.Release();
-                shuffleIndexBuffer.Release();
-            }
-
-
-            if (VariableManagerScript.Instance.useBionicVisionShader)
-            {
-                // Run percept shader and save it to temp3, upsample to same size as original texture
-                RenderTexture temp3 = RenderTexture.GetTemporary((int)temp2.width, temp2.height, 0);
-                Graphics.Blit(temp2, temp3, VariableManagerScript.Instance.perceptShaderMaterial);
-                RenderTexture.ReleaseTemporary(temp2);
-
-                if (VariableManagerScript.Instance.blurFinalImage)
-                {
-                    RenderTexture temp4 = RenderTexture.GetTemporary((int)source.width, source.height, 0);
-                    Graphics.Blit(temp3, temp4);
-                    RenderTexture.ReleaseTemporary(temp3);
-                    Graphics.Blit(temp4, destination, VariableManagerScript.Instance.blurShader);
-                    RenderTexture.ReleaseTemporary(temp4);
-                }
-                else
-                {
-                    Graphics.Blit(temp3, destination);  
-                    RenderTexture.ReleaseTemporary(temp3); 
-                }
-            }
-            else
-            {
-                Graphics.Blit(temp2, destination); 
-                RenderTexture.ReleaseTemporary(temp2);
-            }
-
-            //**DISPLAY ELECTRODE INFO**//
-            if (VariableManagerScript.Instance.debugMode)
-            {
-                electrodesBuffer.GetData(electrodes);
-                if (currentFrame == debugFrame)
-                {
-                    for (int i = 0; i < electrodes.Length; i++)
-                    {
-                        Debug.Log(i + ":  " + electrodes[i].xPosition + "," +
-                                  electrodes[i].yPosition + " -- " +
-                                  electrodes[i].current);
-                    }
-
-                    debugFrame += 250;
-                }
-            }
-
-            currentFrame++;
-            lastPredefinedBlock = VariableManagerScript.Instance.predefinedSettings; 
+            simulationVariablesBuffer = new ComputeBuffer(simulationAreaArrayLength,
+                System.Runtime.InteropServices.Marshal.SizeOf(typeof(SimulationVariables)), ComputeBufferType.Default);
+            Graphics.SetRandomWriteTarget(1, simulationVariablesBuffer, true);
+            simulationVariablesBuffer.SetData(simulationVariableArray);
         }
+
+        if (VariableManagerScript.Instance.useAxonMap)
+        {
+            axonContributionBuffer =
+                new ComputeBuffer(axonMap.axonSegmentContributions.Length,
+                    System.Runtime.InteropServices.Marshal.SizeOf(typeof(AxonSegment)), ComputeBufferType.Default);
+            axonContributionBuffer.SetData(axonMap.axonSegmentContributions);
+
+            axonIdxStartBuffer = new ComputeBuffer(axonMap.axonIdxStart.Length,System.Runtime.InteropServices.Marshal.SizeOf(typeof(int)), ComputeBufferType.Default);
+            axonIdxStartBuffer.SetData(axonMap.axonIdxStart);
+            
+            axonIdxEndBuffer = new ComputeBuffer(axonMap.axonIdxEnd.Length,System.Runtime.InteropServices.Marshal.SizeOf(typeof(int)), ComputeBufferType.Default);
+            axonIdxEndBuffer.SetData(axonMap.axonIdxEnd);
+            
+        }
+        
+        Debug.Log("X: " + simulation_xMin + "," + simulation_xMax);
+        Debug.Log("Y: " + simulation_yMin + "," + simulation_yMax);
+
+    }
+
+	private void RandomizeElectrodes(){
+ 		if (VariableManagerScript.Instance.randomShuffle)
+        {
+            var shuffleIndexBuffer = new ComputeBuffer(electrodes.Length, sizeof(int));
+            var processedTextureBuffer = new ComputeBuffer(electrodes.Length, sizeof(float));
+            var shuffleKernel = VariableManagerScript.Instance.randomShuffler.FindKernel("CSMain");
+            
+            shuffleIndexBuffer.SetData(randomArray);
+            VariableManagerScript.Instance.randomShuffler.SetInt("numberElectrodes", electrodes.Length);
+            VariableManagerScript.Instance.randomShuffler.SetBuffer(shuffleKernel,"electrodesBuffer", electrodesBuffer);
+            VariableManagerScript.Instance.randomShuffler.SetBuffer(shuffleKernel,"randomIndex", shuffleIndexBuffer);
+            VariableManagerScript.Instance.randomShuffler.SetBuffer(shuffleKernel,"processedTextureBuffer", processedTextureBuffer);
+            
+            VariableManagerScript.Instance.randomShuffler.Dispatch(shuffleKernel, electrodes.Length/1024 + 1 , 1, 1);
+            
+            processedTextureBuffer.Release();
+            shuffleIndexBuffer.Release();
+        }
+	}
+
+	private void PerformDownscale(RenderTexture source)
+	{
+		processedTexture = RenderTexture.GetTemporary((int) source.width/VariableManagerScript.Instance.downscaleFactor, 
+        (int) source.height/VariableManagerScript.Instance.downscaleFactor, 0); // create new texture with dimensions from screen's render texture
+		Graphics.Blit(source, processedTexture);
+	}
+
+	private void RunPreprocessing()
+	{
+        if (VariableManagerScript.Instance.allElectrodesMax)
+            electrodesBuffer.SetData(allMaxElectrodes);
         else
         {
-            Graphics.Blit(source,destination);
+            temp = processedTexture;
+            processedTexture = RenderTexture.GetTemporary(temp.width, temp.height, 0);
+            Graphics.Blit(temp, processedTexture, VariableManagerScript.Instance.preprocessingShaderMaterial);
+            RenderTexture.ReleaseTemporary(temp);
         }
     }
 
-      private void LoadBinaryData()
+    private void GeneratePercepts(){
+        if (VariableManagerScript.Instance.useBionicVisionShader)
+        {
+            temp = processedTexture;
+            processedTexture = RenderTexture.GetTemporary(temp.width, temp.height, 0); 
+            Graphics.Blit(temp, processedTexture, VariableManagerScript.Instance.perceptShaderMaterial);
+            RenderTexture.ReleaseTemporary(temp); 
+        }
+    }
+
+	private void GazeLock()
+	{
+		if (VariableManagerScript.Instance.gazeLock) 
+        {
+            temp = processedTexture;
+			processedTexture = RenderTexture.GetTemporary(temp.width, temp.height, 0); 
+
+            var provider = TobiiXR.Internal.Provider;
+            var eyeTrackingData = new TobiiXR_EyeTrackingData();
+            provider.GetEyeTrackingDataLocal(eyeTrackingData);
+
+            var interpolatedGazeDirection = Vector3.Lerp(_lastGazeDirection, eyeTrackingData.GazeRay.Direction, 
+                VariableManagerScript.Instance.smoothMoveSpeed * Time.unscaledDeltaTime);
+            var usedDirection = VariableManagerScript.Instance.smoothMove ? interpolatedGazeDirection.normalized : eyeTrackingData.GazeRay.Direction.normalized;
+            _lastGazeDirection = usedDirection; 
+
+            var screenPos = vrCamera.WorldToScreenPoint(vrCamera.transform.position + vrCamera.transform.rotation * usedDirection);
+
+            VariableManagerScript.Instance.gazeLockShader.SetFloat("gazeY", screenPos.y/startingResY);
+            VariableManagerScript.Instance.gazeLockShader.SetFloat("gazeX", screenPos.x/startingResX);
+
+            Graphics.Blit(temp, processedTexture, VariableManagerScript.Instance.gazeLockShader);
+            RenderTexture.ReleaseTemporary(temp); 
+        }
+	}
+
+    private void BlurFinal()
+    {
+        if (VariableManagerScript.Instance.blurFinalImage)
+        {
+            temp = processedTexture;
+            processedTexture = RenderTexture.GetTemporary(startingResX, startingResY, 0);
+            Graphics.Blit(temp, processedTexture);
+            RenderTexture.ReleaseTemporary(temp);
+
+            temp = processedTexture;
+            processedTexture = RenderTexture.GetTemporary(startingResX, startingResY, 0);
+            Graphics.Blit(temp, processedTexture, VariableManagerScript.Instance.blurShader);
+            RenderTexture.ReleaseTemporary(temp);
+        }
+    }
+
+	private void ElectrodeDebug()
+	{
+        if (VariableManagerScript.Instance.debugMode)
+        {
+            electrodesBuffer.GetData(electrodes);
+            if (currentFrame == debugFrame)
+            {
+                for (int i = 0; i < electrodes.Length; i++)
+                {
+                    Debug.Log(i + ":  " + electrodes[i].xPosition + "," +
+                              electrodes[i].yPosition + " -- " +
+                              electrodes[i].current);
+                }
+
+                debugFrame += 250;
+            }
+        }
+	}
+
+    private void LoadBinaryData()
       {
           pleaseWait.enabled = true; 
           BinaryHandler binaryHandler = new BinaryHandler();
@@ -425,6 +517,7 @@ public class BackendShaderHandler : MonoBehaviour {
     
     private void Awake()
     {
+
         if ( Instance == null)
         {
             Instance = this;
