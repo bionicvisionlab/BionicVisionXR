@@ -63,6 +63,9 @@ public class BackendShaderHandler : MonoBehaviour {
 
     private void OnRenderImage(RenderTexture source, RenderTexture destination)
     {
+        startingResX = source.width;
+        startingResY = source.height; 
+        
         if (VariableManagerScript.Instance.temporalModel == TemporalModels.Pulsated &&
             Time.realtimeSinceStartupAsDouble - lastDisplayFrame < VariableManagerScript.Instance.pulsatedWaitTime)
         {
@@ -83,10 +86,10 @@ public class BackendShaderHandler : MonoBehaviour {
                 lastDisplayFrame = Time.realtimeSinceStartupAsDouble;
                 RenderTexture.ReleaseTemporary(processedTexture); 
            	    if (currentFrame == 0)
-                    RunStartup(source);
+                    RunStartup();
 
            	    if (!(lastPredefinedBlock.Equals(VariableManagerScript.Instance.predefinedSettings)) && VariableManagerScript.Instance.usePreDefinedBlock)
-                    UpdateConfiguration(BlockSettings.GetPreDefinedBlockSettings(VariableManagerScript.Instance.predefinedSettings));
+                    UpdateConfiguration();
                 
            	    SetShaderVariables();
                 
@@ -116,15 +119,13 @@ public class BackendShaderHandler : MonoBehaviour {
 		}
     }
 
-    private void RunStartup(RenderTexture source)
+    private void RunStartup()
     {
         pleaseWait.enabled = true;
-		startingResX = source.width;
-		startingResY = source.height; 
         GetPredefinedBlockSettings();
-        SetSimulationBounds(source); 
+        SetSimulationBounds(); 
 
-		blackScreen = new RenderTexture(source.width, source.height, 0); 
+		blackScreen = new RenderTexture(startingResX, startingResY, 0); 
 		
         if (VariableManagerScript.Instance.useTemporal)
             pulseTrainHandler.SetPulseTrain();
@@ -150,12 +151,12 @@ public class BackendShaderHandler : MonoBehaviour {
         pleaseWait.enabled = false;
     }
 
-    private void SetSimulationBounds(RenderTexture source)
+    private void SetSimulationBounds()
     {
         xResolution =
             (int) Math.Floor(
-                (double) source.width / (double) VariableManagerScript.Instance.downscaleFactor);
-        yResolution = (int) Math.Floor((double) source.height /
+                (double) startingResX / (double) VariableManagerScript.Instance.downscaleFactor);
+        yResolution = (int) Math.Floor((double) startingResY /
                                        (double) VariableManagerScript.Instance.downscaleFactor);
 
         Debug.Log("X-res" + xResolution);
@@ -201,6 +202,7 @@ public class BackendShaderHandler : MonoBehaviour {
 
 	private void LoadMapping()
 	{
+        VariableManagerScript.Instance.updateConfigurationPath();
 		if (!VariableManagerScript.Instance.loadFromBinaries || !File.Exists(VariableManagerScript.Instance.configurationPath + "_axonElectrodeGauss"))
         {
             electrodesHandler.SetRectangularGrid();
@@ -220,6 +222,7 @@ public class BackendShaderHandler : MonoBehaviour {
         VariableManagerScript.Instance.preprocessingShaderMaterial.SetInt("numberElectrodes", electrodes.Length);
         VariableManagerScript.Instance.preprocessingShaderMaterial.SetInt("xResolution", xResolution);
         VariableManagerScript.Instance.preprocessingShaderMaterial.SetInt("yResolution", yResolution);
+        VariableManagerScript.Instance.preprocessingShaderMaterial.SetFloat("amplitude", VariableManagerScript.Instance.amplitude);
 
         VariableManagerScript.Instance.perceptShaderMaterial.SetInt("debugMode",
             VariableManagerScript.Instance.debugMode ? 1 : 0);
@@ -424,6 +427,7 @@ public class BackendShaderHandler : MonoBehaviour {
       {
           pleaseWait.enabled = true; 
           BinaryHandler binaryHandler = new BinaryHandler();
+          VariableManagerScript.Instance.updateConfigurationPath();
                    
           float[] axonSegmentToElectrodes =
               binaryHandler.ReadFloatsFromBinaryFile(
@@ -450,18 +454,22 @@ public class BackendShaderHandler : MonoBehaviour {
 
       public void GetPredefinedBlockSettings()
       {
-          BlockSettings blockSettings = BlockSettings.GetPreDefinedBlockSettings(VariableManagerScript.Instance.predefinedSettings);
-          VariableManagerScript.Instance.rho = blockSettings.rho;
-          VariableManagerScript.Instance.lambda = blockSettings.lambda;
-          VariableManagerScript.Instance.numberXelectrodes = blockSettings.xElectrodeCount;
-          VariableManagerScript.Instance.numberYelectrodes = blockSettings.yElectrodeCount;
-          VariableManagerScript.Instance.electrodeSpacing = blockSettings.electrodeSpacing;
-          VariableManagerScript.Instance.xPosition = blockSettings.xPosition;
-          VariableManagerScript.Instance.yPosition = blockSettings.yPosition;
-          VariableManagerScript.Instance.rotation = blockSettings.rotation;
+          if (VariableManagerScript.Instance.usePreDefinedBlock)
+          {
+              BlockSettings blockSettings =
+                  BlockSettings.GetPreDefinedBlockSettings(VariableManagerScript.Instance.predefinedSettings);
+              VariableManagerScript.Instance.rho = blockSettings.rho;
+              VariableManagerScript.Instance.lambda = blockSettings.lambda;
+              VariableManagerScript.Instance.numberXelectrodes = blockSettings.xElectrodeCount;
+              VariableManagerScript.Instance.numberYelectrodes = blockSettings.yElectrodeCount;
+              VariableManagerScript.Instance.electrodeSpacing = blockSettings.electrodeSpacing;
+              VariableManagerScript.Instance.xPosition = blockSettings.xPosition;
+              VariableManagerScript.Instance.yPosition = blockSettings.yPosition;
+              VariableManagerScript.Instance.rotation = blockSettings.rotation;
+          }
       }
 
-      public void UpdateConfiguration(BlockSettings settings)
+      public void UpdateConfiguration()
       {
           GetPredefinedBlockSettings();
           pleaseWait.enabled = true; 

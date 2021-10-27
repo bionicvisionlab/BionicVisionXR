@@ -155,7 +155,8 @@
             uniform RWStructuredBuffer<Electrode> electrodesBuffer : register(u2);
             uint numberElectrodes;
             uint xResolution; 
-            uint yResolution; 
+            uint yResolution;
+            float amplitude; 
             
             uint pixelNumberX( float screenPos){
                 return (int) (xResolution * screenPos);
@@ -171,7 +172,7 @@
                 for(int currentElectrode = 0; currentElectrode < numberElectrodes; currentElectrode++){
                     if( pixelNumberX(i.grabPos.x) == pixelNumberX(electrodesBuffer[currentElectrode].x) 
                     && pixelNumberY(i.grabPos.y) == pixelNumberY(electrodesBuffer[currentElectrode].y)){
-                        electrodesBuffer[currentElectrode].current = contrCol[3]; 
+                        electrodesBuffer[currentElectrode].current = amplitude * contrCol[3]; 
                     }
                 }
                 

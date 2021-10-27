@@ -24,6 +24,8 @@ namespace Assets.BionicVisionVR.Coding.Structs
             yPosition = _yPosition;
             rotation = _rotation; 
         }
+        
+        
 
         public static BlockSettings GetPreDefinedBlockSettings(PreDefinedBlocks block)
         {

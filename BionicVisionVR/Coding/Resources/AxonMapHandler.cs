@@ -72,6 +72,7 @@ namespace BionicVisionVR.Resources
 
             if (VariableManagerScript.Instance.savePremadeConfiguration)
             {
+                VariableManagerScript.Instance.updateConfigurationPath();
                 binaryHandler.WriteAxonMap(VariableManagerScript.Instance.configurationPath, BackendShaderHandler.Instance.axonMap);
             }
         }
@@ -224,6 +225,8 @@ namespace BionicVisionVR.Resources
                                                                .axonSegmentContributions
                                                                .Length];
                         BackendShaderHandler.Instance.axonSegmentGaussToElectrodes.GetData(electrodeGauss);
+                        
+                        VariableManagerScript.Instance.updateConfigurationPath();
                         binaryHandler.WriteFloatArray(
                             VariableManagerScript.Instance.configurationPath + "_axonElectrodeGauss", electrodeGauss
                         );

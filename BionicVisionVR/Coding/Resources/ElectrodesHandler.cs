@@ -45,6 +45,8 @@ namespace BionicVisionVR.Resources
                             
             if (VariableManagerScript.Instance.savePremadeConfiguration)
             {
+                VariableManagerScript.Instance.updateConfigurationPath();
+                
                 BinaryHandler binaryHandler = new BinaryHandler();
                 binaryHandler.WriteElectrodeLocations(VariableManagerScript.Instance.configurationPath, electrodes);
             }

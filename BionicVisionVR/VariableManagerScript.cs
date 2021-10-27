@@ -79,9 +79,13 @@ public class VariableManagerScript : MonoBehaviour {
 
     public void updateConfigurationPath()
     {
-        if (useAutomaticNaming)
+        if (useAutomaticNaming || configurationName.Equals(""))
         {
-           configurationName = predefinedSettings.ToString() + (useLeftEye ? "Left" : "Right"); 
+            if (usePreDefinedBlock)
+                configurationName = predefinedSettings.ToString() + (useLeftEye ? "Left" : "Right");
+            else
+                configurationName = numberXelectrodes + "_" + numberYelectrodes + "_" + xPosition + "_" + yPosition +
+                                    "_" + rotation + "_" + rho + "_" + lambda;
         }
         configurationPath = Application.dataPath + Path.DirectorySeparatorChar + "BionicVisionVR" +
         Path.DirectorySeparatorChar

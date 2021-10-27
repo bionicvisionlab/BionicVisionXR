@@ -6,17 +6,20 @@ using Valve.VR;
 
 public class NewGUI_Controller : MonoBehaviour
 {
-    public Slider device; 
+    public Slider device;
     public Slider x_pos;
     public Slider y_pos;
-    public Slider rotation; 
+    public Slider rotation;
     public Slider rho;
     public Slider lambda;
     public Slider amplitude;
-    
+
     public Button SPV_active;
 
-    private int currentGuiTarget;
+    private int[] possibleRho =  {50, 100, 300};
+    private int[] possibleLambda = {50, 1000, 5000}; 
+
+private int currentGuiTarget;
     private static int numSliders = 7; 
     private Slider[] GuiTargets = new Slider[numSliders];
     private float[] sliderIntervals = new float[numSliders];  
@@ -48,6 +51,7 @@ public class NewGUI_Controller : MonoBehaviour
         GuiTargets[6] = amplitude;
         sliderIntervals[6] = 0.1f;
 
+        UpdateVariableManager();
         SelectSlider(); 
     }
 
@@ -72,6 +76,37 @@ public class NewGUI_Controller : MonoBehaviour
         return false; 
     }
 
+    void UpdateVariableManager()
+    {
+        if (device.value == 0)
+        {
+            VariableManagerScript.Instance.numberXelectrodes = 10;
+            VariableManagerScript.Instance.numberYelectrodes = 6;
+            VariableManagerScript.Instance.electrodeSpacing = 575; 
+        }
+        else if (device.value == 1)
+        {
+            VariableManagerScript.Instance.numberXelectrodes = 15;
+            VariableManagerScript.Instance.numberYelectrodes = 15;
+            VariableManagerScript.Instance.electrodeSpacing = 575; 
+        }
+        else if (device.value == 2)
+        {
+            VariableManagerScript.Instance.numberXelectrodes = 20;
+            VariableManagerScript.Instance.numberYelectrodes = 20;
+            VariableManagerScript.Instance.electrodeSpacing = 280; 
+        }
+
+        VariableManagerScript.Instance.xPosition = x_pos.value;
+        VariableManagerScript.Instance.yPosition = y_pos.value;
+        VariableManagerScript.Instance.rotation = rotation.value;
+        VariableManagerScript.Instance.rho = possibleRho[(int) rho.value]; 
+        VariableManagerScript.Instance.lambda = possibleLambda[(int) lambda.value];
+        
+        BackendShaderHandler.Instance.UpdateConfiguration();
+        VariableManagerScript.Instance.amplitude = amplitude.value; 
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -84,7 +119,7 @@ public class NewGUI_Controller : MonoBehaviour
         
         SelectSlider();
         
-        if (Input.GetKeyDown(KeyCode.Space) || SteamVR_Actions._default.GrabPinch.GetStateDown(SteamVR_Input_Sources.RightHand))
+        if (Input.GetKeyDown(KeyCode.Space) || SteamVR_Actions._default.GrabGrip.GetStateDown(SteamVR_Input_Sources.RightHand))
         {
             if (SPV_active.interactable)
             {
@@ -103,6 +138,10 @@ public class NewGUI_Controller : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.LeftArrow))
             GuiTargets[currentGuiTarget].value -= sliderIntervals[currentGuiTarget];
+
+        if (Input.GetKeyDown(KeyCode.KeypadEnter) ||
+            SteamVR_Actions._default.GrabPinch.GetStateDown(SteamVR_Input_Sources.RightHand))
+            UpdateVariableManager();
 
     }
 }
