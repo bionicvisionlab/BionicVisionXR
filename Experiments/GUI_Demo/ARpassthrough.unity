@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028377, g: 0.22571409, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &4
 LightmapSettings:
@@ -272,6 +272,7 @@ GameObject:
   - component: {fileID: 356665126}
   - component: {fileID: 356665125}
   - component: {fileID: 356665124}
+  - component: {fileID: 356665127}
   m_Layer: 0
   m_Name: Camera
   m_TagString: MainCamera
@@ -344,6 +345,31 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!114 &356665127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 356665123}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f73b525afbdb41d49bf5d12680f7d552, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  checkTrial: 0
+  checkSubject: 0
+  trialInterval: 0
+  SubjectNumberInputField: {fileID: 0}
+  BlockNumberInputField: {fileID: 0}
+  TrialNumberInputField: {fileID: 0}
+  EyeSelection: {fileID: 0}
+  MainCanvas: {fileID: 0}
+  ErrorWarningCanvas: {fileID: 0}
+  TrialWarningCanvas: {fileID: 0}
+  ErrorWarning: {fileID: 0}
+  sceneToLoadNext: 
+  introSceneName: IntroSceneDemo
 --- !u!1 &538173072
 GameObject:
   m_ObjectHideFlags: 0
@@ -1556,6 +1582,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -1694,6 +1721,11 @@ MonoBehaviour:
   calculateAxonMap: 1
   useTemporal: 0
   randomShuffle: 0
+  gazeLockShader: {fileID: 0}
+  gazeLock: 1
+  smoothMove: 1
+  smoothMoveSpeed: 18
+  allElectrodesMax: 0
   debugMode: 0
   showElectrodes: 0
   specificPixelToDebug: 0
@@ -1714,6 +1746,8 @@ MonoBehaviour:
   downscaleFactor: 3
   number_axons: 300
   number_axon_segments: 300
+  temporalModel: 0
+  pulsatedWaitTime: 0
   frameDuration: 0.011111
   pulseFrequency: 20
   pulseDuration: 0.00045
@@ -1723,11 +1757,6 @@ MonoBehaviour:
   useAutomaticNaming: 1
   configurationName: 
   configurationPath: 
---- !u!20 &1959211854 stripped
-Camera:
-  m_CorrespondingSourceObject: {fileID: 20000014031267948, guid: 4d293c8e162f3874b982baadd71153d2, type: 3}
-  m_PrefabInstance: {fileID: 1110379724}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1959211855
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1740,9 +1769,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4aa76f64a08bdf84b82c92d89e3d254c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainCamera: {fileID: 1959211854}
-  miniCamera: {fileID: 0}
   pleaseWait: {fileID: 538173074}
+  vrCamera: {fileID: 0}
   simulation_xMin: 0
   simulation_xMax: 0
   simulation_yMin: 0
@@ -1778,6 +1806,7 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats:
     - PixelSnap: 0
     - _EnableExternalAlpha: 0
@@ -1816,6 +1845,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -1901,6 +1931,7 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs: []
+    m_Ints: []
     m_Floats: []
     m_Colors: []
   m_BuildTextureStacks: []

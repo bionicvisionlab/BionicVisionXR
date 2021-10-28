@@ -390,11 +390,11 @@ public class BackendShaderHandler : MonoBehaviour {
 
     private void BlurFinal()
     {
-        if (VariableManagerScript.Instance.blurFinalImage)
-        {
+        if(VariableManagerScript.Instance.blurFinalImage){
+            VariableManagerScript.Instance.blurShader.SetInt("_KernelSize", VariableManagerScript.Instance.blurIntensity);
             temp = processedTexture;
-            processedTexture = RenderTexture.GetTemporary(startingResX, startingResY, 0);
-            Graphics.Blit(temp, processedTexture);
+            processedTexture = RenderTexture.GetTemporary(startingResX*2, startingResY*2, 0);
+            Graphics.Blit(temp, processedTexture, VariableManagerScript.Instance.blurShader);
             RenderTexture.ReleaseTemporary(temp);
 
             temp = processedTexture;

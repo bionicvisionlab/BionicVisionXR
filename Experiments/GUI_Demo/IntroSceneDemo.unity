@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028377, g: 0.22571409, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2954,7 +2954,7 @@ MonoBehaviour:
   TrialWarningCanvas: {fileID: 2016891921}
   ErrorWarning: {fileID: 1641786664}
   sceneToLoadNext: 
-  introSceneName: introScene
+  introSceneName: introSceneDemo
 --- !u!4 &903467029
 Transform:
   m_ObjectHideFlags: 0
