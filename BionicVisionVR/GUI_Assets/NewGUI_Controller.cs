@@ -23,30 +23,34 @@ public class NewGUI_Controller : MonoBehaviour
     {
         int[] three = {0, 1, 2};
         int[] rots = {-90, -45, 0, 45, 90};
-        foreach (var i in three) //devices
-        {
-            foreach (var j in three) //xPos
+        for(int eye = 0; eye<2; eye++){ //Both eyes
+            foreach (var i in three) //devices
             {
-                foreach (var k in three) //yPos
+                foreach (var j in three) //xPos
                 {
-                    foreach (var r in rots)
+                    foreach (var k in three) //yPos
                     {
-                        foreach (var rh in possibleRho)
+                        foreach (var r in rots)
                         {
-                            foreach (var la in possibleLambda)
+                            foreach (var rh in possibleRho)
                             {
-                                GuiTargets[0].value = i;
-                                GuiTargets[1].value = j;
-                                GuiTargets[2].value = k;
-                                GuiTargets[3].value = r;
-                                GuiTargets[4].value = rh;
-                                GuiTargets[5].value = la;
-                                UpdateVariableManager(); 
+                                foreach (var la in possibleLambda)
+                                {
+                                    GuiTargets[0].value = i;
+                                    GuiTargets[1].value = j;
+                                    GuiTargets[2].value = k;
+                                    GuiTargets[3].value = r;
+                                    GuiTargets[4].value = rh;
+                                    GuiTargets[5].value = la;
+                                    UpdateVariableManager();
+                                }
                             }
                         }
                     }
                 }
             }
+
+            VariableManagerScript.Instance.useLeftEye = !VariableManagerScript.Instance.useLeftEye;
         }
 
 
@@ -63,9 +67,6 @@ private int currentGuiTarget;
     // Start is called before the first frame update
     void Start()
     {
-
-        GenerateAllFiles(); 
-        
         GuiTargets[0] = device;
         sliderIntervals[0] = 1f; 
         
@@ -87,6 +88,8 @@ private int currentGuiTarget;
         GuiTargets[6] = amplitude;
         sliderIntervals[6] = 0.1f;
 
+        //GenerateAllFiles(); 
+        
         UpdateVariableManager();
         SelectSlider(); 
     }
@@ -154,8 +157,9 @@ private int currentGuiTarget;
             currentGuiTarget--; 
         
         SelectSlider();
+        var lister = SteamVR_Input_Source.GetAllSources();
         
-        if (Input.GetKeyDown(KeyCode.Space) || SteamVR_Actions._default.GrabGrip.GetStateDown(SteamVR_Input_Sources.RightHand))
+        if ( Input.GetKeyDown(KeyCode.Space) || SteamVR_Actions._default.GrabGrip.GetStateDown(SteamVR_Input_Sources.RightHand))
         {
             SPV_active.interactable = !SPV_active.interactable; 
             SPV_active.GetComponentInChildren<Text>().text = SPV_active.interactable ? "SPV active" : "SPV Inactive";

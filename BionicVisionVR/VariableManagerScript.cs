@@ -16,7 +16,8 @@ public class VariableManagerScript : MonoBehaviour {
 
     [Header("Shader Settings")]
     public bool runShaders = true;
-    public Material preprocessingShaderMaterial;
+    public Material[] preprocessingShaderMaterial = new Material[3];
+    public int whichPreprocessor = 0; 
     public bool useBionicVisionShader = true; 
     public Material perceptShaderMaterial;
     public bool blurFinalImage= true;
