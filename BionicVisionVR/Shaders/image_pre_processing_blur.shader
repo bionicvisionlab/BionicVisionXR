@@ -78,56 +78,6 @@
             } 
             ENDCG
         }
-       
-        
-        ///////////////////////////////////////////
-        // Second pass for edge enhancement  //
-        ///////////////////////////////////////////
-         GrabPass {
-            "_GrabTex"
-        }
-
-        Pass
-        {
-            CGPROGRAM
-            #pragma vertex vert
-            #pragma fragment frag
-            
-            sampler2D _GrabTex;
-            float4 _GrabTex_TexelSize;
-            
-            float contr(sampler2D tex, float2 uv) {
-                float _texelw = _GrabTex_TexelSize.x;
-                const int dist = 1;
-                float4 col = float4(0,0,0,0);
-                float lowval = 1.0;
-                float highval = 0.0;
-
-                for (int i = -dist; i <= dist; ++i) {
-                    for (int j = -dist; j <= dist; ++j) {
-                        if (length(float2(i, j)) > dist) {
-                            float4 pix = tex2D(tex, float2(uv.x+i*_texelw, uv.y+j*_texelw));
-                            lowval = min(lowval , lum(pix.rgb));
-                            highval= max(highval , lum(pix.rgb));
-                        }
-                    }
-                }
-
-                if (lum(col) - lowval > 0.1 || highval - lum(col) > 0.1) {
-                    col.rgb = float3(1.0, 1.0, 1.0);
-                }
-
-                return col;
-            }
-            
-            fixed4 frag (v2f i) : SV_Target
-            {
-                fixed4 contrCol = contr(_GrabTex, i.uv);    
-                return contrCol;
-            }
-            
-            ENDCG
-        } 
         
         ///////////////////////////////////////////
          // Third pass for horizontal blur //

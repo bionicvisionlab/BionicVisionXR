@@ -16,10 +16,12 @@ public class VariableManagerScript : MonoBehaviour {
 
     [Header("Shader Settings")]
     public bool runShaders = true;
-    public Material preprocessingShaderMaterial;
+    public Material[] preprocessingShaderMaterial = new Material[3];
+    public int whichPreprocessor = 0; 
     public bool useBionicVisionShader = true; 
     public Material perceptShaderMaterial;
     public bool blurFinalImage= true;
+    public int blurIntensity = 15; 
 
     public Material blurShader; 
     public ComputeShader randomShuffler;
@@ -85,7 +87,7 @@ public class VariableManagerScript : MonoBehaviour {
                 configurationName = predefinedSettings.ToString() + (useLeftEye ? "Left" : "Right");
             else
                 configurationName = numberXelectrodes + "_" + numberYelectrodes + "_" + xPosition + "_" + yPosition +
-                                    "_" + rotation + "_" + rho + "_" + lambda;
+                                    "_" + rotation + "_" + rho + "_" + lambda + "_" + useLeftEye;
         }
         configurationPath = Application.dataPath + Path.DirectorySeparatorChar + "BionicVisionVR" +
         Path.DirectorySeparatorChar

@@ -136,13 +136,7 @@ public class BackendShaderHandler : MonoBehaviour {
         if (VariableManagerScript.Instance.debugMode)
             axonMapHandler.AxonSegmentsToScreenPosCoords();
         electrodesHandler.ElectrodeGridToScreenPosCoords();
-
-        allMaxElectrodes = electrodes;
-        for (int i = 0; i < allMaxElectrodes.Length; i++)
-        {
-            allMaxElectrodes[i].current = 1; 
-        }
-
+        
         InitializeBuffers();
                     
         SetRandomizerArray();
@@ -218,11 +212,11 @@ public class BackendShaderHandler : MonoBehaviour {
 
     private void SetShaderVariables()
     {
-        VariableManagerScript.Instance.preprocessingShaderMaterial.SetBuffer("electrodesBuffer", electrodesBuffer);
-        VariableManagerScript.Instance.preprocessingShaderMaterial.SetInt("numberElectrodes", electrodes.Length);
-        VariableManagerScript.Instance.preprocessingShaderMaterial.SetInt("xResolution", xResolution);
-        VariableManagerScript.Instance.preprocessingShaderMaterial.SetInt("yResolution", yResolution);
-        VariableManagerScript.Instance.preprocessingShaderMaterial.SetFloat("amplitude", VariableManagerScript.Instance.amplitude);
+        VariableManagerScript.Instance.preprocessingShaderMaterial[VariableManagerScript.Instance.whichPreprocessor].SetBuffer("electrodesBuffer", electrodesBuffer);
+        VariableManagerScript.Instance.preprocessingShaderMaterial[VariableManagerScript.Instance.whichPreprocessor].SetInt("numberElectrodes", electrodes.Length);
+        VariableManagerScript.Instance.preprocessingShaderMaterial[VariableManagerScript.Instance.whichPreprocessor].SetInt("xResolution", xResolution);
+        VariableManagerScript.Instance.preprocessingShaderMaterial[VariableManagerScript.Instance.whichPreprocessor].SetInt("yResolution", yResolution);
+        VariableManagerScript.Instance.preprocessingShaderMaterial[VariableManagerScript.Instance.whichPreprocessor].SetFloat("amplitude", VariableManagerScript.Instance.amplitude);
 
         VariableManagerScript.Instance.perceptShaderMaterial.SetInt("debugMode",
             VariableManagerScript.Instance.debugMode ? 1 : 0);
@@ -347,7 +341,7 @@ public class BackendShaderHandler : MonoBehaviour {
         {
             temp = processedTexture;
             processedTexture = RenderTexture.GetTemporary(temp.width, temp.height, 0);
-            Graphics.Blit(temp, processedTexture, VariableManagerScript.Instance.preprocessingShaderMaterial);
+            Graphics.Blit(temp, processedTexture, VariableManagerScript.Instance.preprocessingShaderMaterial[VariableManagerScript.Instance.whichPreprocessor]);
             RenderTexture.ReleaseTemporary(temp);
         }
     }
@@ -390,11 +384,11 @@ public class BackendShaderHandler : MonoBehaviour {
 
     private void BlurFinal()
     {
-        if (VariableManagerScript.Instance.blurFinalImage)
-        {
+        if(VariableManagerScript.Instance.blurFinalImage){
+            VariableManagerScript.Instance.blurShader.SetInt("_KernelSize", VariableManagerScript.Instance.blurIntensity);
             temp = processedTexture;
-            processedTexture = RenderTexture.GetTemporary(startingResX, startingResY, 0);
-            Graphics.Blit(temp, processedTexture);
+            processedTexture = RenderTexture.GetTemporary(startingResX*2, startingResY*2, 0);
+            Graphics.Blit(temp, processedTexture, VariableManagerScript.Instance.blurShader);
             RenderTexture.ReleaseTemporary(temp);
 
             temp = processedTexture;
@@ -495,8 +489,8 @@ public class BackendShaderHandler : MonoBehaviour {
           electrodesHandler.ElectrodeGridToScreenPosCoords(); 
           InitializeBuffers();
           
-          VariableManagerScript.Instance.preprocessingShaderMaterial.SetBuffer("electrodesBuffer", electrodesBuffer);
-          VariableManagerScript.Instance.preprocessingShaderMaterial.SetInt("numberElectrodes", electrodes.Length);
+          VariableManagerScript.Instance.preprocessingShaderMaterial[VariableManagerScript.Instance.whichPreprocessor].SetBuffer("electrodesBuffer", electrodesBuffer);
+          VariableManagerScript.Instance.preprocessingShaderMaterial[VariableManagerScript.Instance.whichPreprocessor].SetInt("numberElectrodes", electrodes.Length);
           
           VariableManagerScript.Instance.perceptShaderMaterial.SetInt("numberElectrodes", (electrodes.Length));
           VariableManagerScript.Instance.perceptShaderMaterial.SetFloat("rho", VariableManagerScript.Instance.rho);
@@ -506,6 +500,12 @@ public class BackendShaderHandler : MonoBehaviour {
           VariableManagerScript.Instance.perceptShaderMaterial.SetBuffer("axonIdxEndBuffer", axonIdxEndBuffer);
           VariableManagerScript.Instance.perceptShaderMaterial.SetInt("axonBufferLength", axonMap.axonIdxStart.Length);
           pleaseWait.enabled = false; 
+          
+          allMaxElectrodes = electrodes;
+          for (int i = 0; i < allMaxElectrodes.Length; i++)
+          {
+              allMaxElectrodes[i].current = 1; 
+          }
       }
 
     private void OnApplicationQuit()

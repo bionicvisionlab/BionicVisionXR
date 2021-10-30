@@ -28,8 +28,11 @@ public class SceneManagementScript : MonoBehaviour
     public void GoToSceneByName(string sceneName)
     {
         if(!sceneName.Equals(""))
-            sceneToLoadNext = sceneName; 
-        VariableManagerScript.Instance.subjectNumber = int.Parse(SubjectNumberInputField.text);
+            sceneToLoadNext = sceneName;
+        if (SubjectNumberInputField.text.Equals(""))
+            VariableManagerScript.Instance.subjectNumber = 0; 
+        else
+            VariableManagerScript.Instance.subjectNumber = int.Parse(SubjectNumberInputField.text);
         
         if (BlockNumberInputField.text != "")
         {

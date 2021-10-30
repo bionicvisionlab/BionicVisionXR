@@ -58,7 +58,7 @@ def main(argv):
 
 
     # Build the axon map model:
-    model = p2p.models.AxonMapModel(xrange=x_range, yrange=y_range, xystep=xystep, eye=eye, axlambda = axlambda, rho = rho, min_ax_sensitivity = min_ax_sensitivity, n_axons = num_axon, n_ax_segments = num_axon_seg)
+    model = p2p.models.AxonMapModel(xrange=x_range, yrange=y_range, xystep=xystep, eye=eye, axlambda = axlambda, rho = rho, min_ax_sensitivity = min_ax_sensitivity, n_axons = num_axon, n_ax_segments = num_axon_seg, ignore_pickle = True)
     model.build()
 
     # - For each pixel in the grid created above (check out `model.grid.x` and

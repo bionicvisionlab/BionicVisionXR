@@ -16,8 +16,45 @@ public class NewGUI_Controller : MonoBehaviour
 
     public Button SPV_active;
 
-    private int[] possibleRho =  {50, 100, 300};
-    private int[] possibleLambda = {50, 1000, 5000}; 
+    private int[] possibleRho =  {50, 150, 300};
+    private int[] possibleLambda = {50, 1500, 3000};
+
+    private void GenerateAllFiles()
+    {
+        int[] three = {0, 1, 2};
+        int[] rots = {-90, -45, 0, 45, 90};
+        for(int eye = 0; eye<2; eye++){ //Both eyes
+            foreach (var i in three) //devices
+            {
+                foreach (var j in three) //xPos
+                {
+                    foreach (var k in three) //yPos
+                    {
+                        foreach (var r in rots)
+                        {
+                            foreach (var rh in possibleRho)
+                            {
+                                foreach (var la in possibleLambda)
+                                {
+                                    GuiTargets[0].value = i;
+                                    GuiTargets[1].value = j;
+                                    GuiTargets[2].value = k;
+                                    GuiTargets[3].value = r;
+                                    GuiTargets[4].value = rh;
+                                    GuiTargets[5].value = la;
+                                    UpdateVariableManager();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            VariableManagerScript.Instance.useLeftEye = !VariableManagerScript.Instance.useLeftEye;
+        }
+
+
+    }
 
 private int currentGuiTarget;
     private static int numSliders = 7; 
@@ -34,10 +71,10 @@ private int currentGuiTarget;
         sliderIntervals[0] = 1f; 
         
         GuiTargets[1] = x_pos;
-        sliderIntervals[1] = 300f; 
+        sliderIntervals[1] = 600f; 
         
         GuiTargets[2] = y_pos;
-        sliderIntervals[2] = 300f;
+        sliderIntervals[2] = 600f;
 
         GuiTargets[3] = rotation; 
         sliderIntervals[3] = 45f;
@@ -51,6 +88,8 @@ private int currentGuiTarget;
         GuiTargets[6] = amplitude;
         sliderIntervals[6] = 0.1f;
 
+        //GenerateAllFiles(); 
+        
         UpdateVariableManager();
         SelectSlider(); 
     }
@@ -94,7 +133,7 @@ private int currentGuiTarget;
         {
             VariableManagerScript.Instance.numberXelectrodes = 20;
             VariableManagerScript.Instance.numberYelectrodes = 20;
-            VariableManagerScript.Instance.electrodeSpacing = 280; 
+            VariableManagerScript.Instance.electrodeSpacing = 350; 
         }
 
         VariableManagerScript.Instance.xPosition = x_pos.value;
@@ -118,19 +157,13 @@ private int currentGuiTarget;
             currentGuiTarget--; 
         
         SelectSlider();
+        var lister = SteamVR_Input_Source.GetAllSources();
         
-        if (Input.GetKeyDown(KeyCode.Space) || SteamVR_Actions._default.GrabGrip.GetStateDown(SteamVR_Input_Sources.RightHand))
+        if ( Input.GetKeyDown(KeyCode.Space) || SteamVR_Actions._default.GrabGrip.GetStateDown(SteamVR_Input_Sources.RightHand))
         {
-            if (SPV_active.interactable)
-            {
-                SPV_active.interactable = false;
-                SPV_active.GetComponentInChildren<Text>().text = "SPV Inactive";
-            }
-            else
-            {
-                SPV_active.interactable = true;
-                SPV_active.GetComponentInChildren<Text>().text = "SPV Active";
-            }
+            SPV_active.interactable = !SPV_active.interactable; 
+            SPV_active.GetComponentInChildren<Text>().text = SPV_active.interactable ? "SPV active" : "SPV Inactive";
+            VariableManagerScript.Instance.useBionicVisionShader = SPV_active.interactable;
         }
 
         if (Input.GetKeyDown(KeyCode.RightArrow))
@@ -139,9 +172,9 @@ private int currentGuiTarget;
         if (Input.GetKeyDown(KeyCode.LeftArrow))
             GuiTargets[currentGuiTarget].value -= sliderIntervals[currentGuiTarget];
 
-        if (Input.GetKeyDown(KeyCode.KeypadEnter) ||
-            SteamVR_Actions._default.GrabPinch.GetStateDown(SteamVR_Input_Sources.RightHand))
+        if (Input.GetKeyDown(KeyCode.KeypadEnter) || SteamVR_Actions._default.GrabPinch.GetStateDown(SteamVR_Input_Sources.RightHand))
             UpdateVariableManager();
 
+        VariableManagerScript.Instance.amplitude = amplitude.value; 
     }
 }
