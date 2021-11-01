@@ -1,65 +1,41 @@
 using System.Collections;
 using System.Collections.Generic;
+using BionicVisionVR.Resources;
 using UnityEngine;
 using UnityEngine.UI;
 using Valve.VR;
 
 public class NewGUI_Controller : MonoBehaviour
 {
+    public GameObject gui; 
+    
     public Slider device;
     public Slider x_pos;
     public Slider y_pos;
     public Slider rotation;
     public Slider rho;
     public Slider lambda;
-    public Slider amplitude;
+
+    public Slider gazeLock;
+    public Slider temporalMode;
+    public Slider blurIntensity;
+    public Slider zoom;
+    public Slider preProcessor;
+    public Slider amplitude; 
+    
 
     public Button SPV_active;
 
     private int[] possibleRho =  {50, 150, 300};
     private int[] possibleLambda = {50, 1500, 3000};
-
-    private void GenerateAllFiles()
-    {
-        int[] three = {0, 1, 2};
-        int[] rots = {-90, -45, 0, 45, 90};
-        for(int eye = 0; eye<2; eye++){ //Both eyes
-            foreach (var i in three) //devices
-            {
-                foreach (var j in three) //xPos
-                {
-                    foreach (var k in three) //yPos
-                    {
-                        foreach (var r in rots)
-                        {
-                            foreach (var rh in possibleRho)
-                            {
-                                foreach (var la in possibleLambda)
-                                {
-                                    GuiTargets[0].value = i;
-                                    GuiTargets[1].value = j;
-                                    GuiTargets[2].value = k;
-                                    GuiTargets[3].value = r;
-                                    GuiTargets[4].value = rh;
-                                    GuiTargets[5].value = la;
-                                    UpdateVariableManager();
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            VariableManagerScript.Instance.useLeftEye = !VariableManagerScript.Instance.useLeftEye;
-        }
-
-
-    }
-
-private int currentGuiTarget;
-    private static int numSliders = 7; 
-    private Slider[] GuiTargets = new Slider[numSliders];
-    private float[] sliderIntervals = new float[numSliders];  
+    
+    private int currentGuiTargetRight, currentGuiTargetLeft;
+    private static int numSlidersRight = 6; 
+    private Slider[] GuiTargetsRight = new Slider[numSlidersRight];
+    private float[] sliderIntervalsRight = new float[numSlidersRight];  
+    private static int numSlidersLeft = 6; 
+    private Slider[] GuiTargetsLeft = new Slider[numSlidersLeft];
+    private float[] sliderIntervalsLeft = new float[numSlidersLeft];  
 
     private double timer;
     private float interval = .25f; 
@@ -67,26 +43,41 @@ private int currentGuiTarget;
     // Start is called before the first frame update
     void Start()
     {
-        GuiTargets[0] = device;
-        sliderIntervals[0] = 1f; 
+        GuiTargetsRight[0] = device;
+        sliderIntervalsRight[0] = 1f; 
         
-        GuiTargets[1] = x_pos;
-        sliderIntervals[1] = 600f; 
+        GuiTargetsRight[1] = x_pos;
+        sliderIntervalsRight[1] = 600f; 
         
-        GuiTargets[2] = y_pos;
-        sliderIntervals[2] = 600f;
+        GuiTargetsRight[2] = y_pos;
+        sliderIntervalsRight[2] = 600f;
 
-        GuiTargets[3] = rotation; 
-        sliderIntervals[3] = 45f;
+        GuiTargetsRight[3] = rotation; 
+        sliderIntervalsRight[3] = 45f;
         
-        GuiTargets[4] = rho;
-        sliderIntervals[4] = 1f; 
+        GuiTargetsRight[4] = rho;
+        sliderIntervalsRight[4] = 1f; 
         
-        GuiTargets[5] = lambda;
-        sliderIntervals[5] = 1f; 
+        GuiTargetsRight[5] = lambda;
+        sliderIntervalsRight[5] = 1f; 
         
-        GuiTargets[6] = amplitude;
-        sliderIntervals[6] = 0.1f;
+        GuiTargetsLeft[0] = gazeLock;
+        sliderIntervalsLeft[0] = 1f; 
+        
+        GuiTargetsLeft[1] = temporalMode;
+        sliderIntervalsLeft[1] = 1f; 
+        
+        GuiTargetsLeft[2] = blurIntensity;
+        sliderIntervalsLeft[2] = 1f;
+
+        GuiTargetsLeft[3] = zoom; 
+        sliderIntervalsLeft[3] = 10f;
+        
+        GuiTargetsLeft[4] = preProcessor;
+        sliderIntervalsLeft[4] = 1f; 
+        
+        GuiTargetsLeft[5] = amplitude;
+        sliderIntervalsLeft[5] = 1f; 
 
         //GenerateAllFiles(); 
         
@@ -96,12 +87,20 @@ private int currentGuiTarget;
 
     void SelectSlider()
     {
-        for (int i=0; i<GuiTargets.Length; i++)
+        for (int i=0; i<GuiTargetsRight.Length; i++)
         {
-            if (currentGuiTarget != i)
-                GuiTargets[i].interactable = false;
+            if (currentGuiTargetRight != i)
+                GuiTargetsRight[i].interactable = false;
             else
-                GuiTargets[i].interactable = true;
+                GuiTargetsRight[i].interactable = true;
+        }
+        
+        for (int i=0; i<GuiTargetsLeft.Length; i++)
+        {
+            if (currentGuiTargetLeft != i)
+                GuiTargetsLeft[i].interactable = false;
+            else
+                GuiTargetsLeft[i].interactable = true;
         }
     }
 
@@ -143,38 +142,106 @@ private int currentGuiTarget;
         VariableManagerScript.Instance.lambda = possibleLambda[(int) lambda.value];
         
         BackendShaderHandler.Instance.UpdateConfiguration();
-        VariableManagerScript.Instance.amplitude = amplitude.value; 
+
+        gui.SetActive(false); 
+
     }
 
     // Update is called once per frame
     void Update()
     {
+        if ((Input.GetKeyDown(KeyCode.DownArrow) || SteamVR_Actions._default.TeleportBack.GetStateDown(SteamVR_Input_Sources.RightHand)) && currentGuiTargetRight != GuiTargetsRight.Length-1)
+            currentGuiTargetRight++;
 
-        if (Input.GetKeyDown(KeyCode.DownArrow) && TimeElapsed() && currentGuiTarget != GuiTargets.Length-1)
-            currentGuiTarget++;
+        if ((Input.GetKeyDown(KeyCode.UpArrow)|| SteamVR_Actions._default.Teleport.GetStateDown(SteamVR_Input_Sources.RightHand)) && currentGuiTargetRight != 0)
+            currentGuiTargetRight--; 
+        
+        
+        if ((Input.GetKeyDown(KeyCode.S) || SteamVR_Actions._default.TeleportBack.GetStateDown(SteamVR_Input_Sources.LeftHand)) && currentGuiTargetLeft != GuiTargetsLeft.Length-1)
+            currentGuiTargetLeft++;
 
-        if (Input.GetKeyDown(KeyCode.UpArrow) && TimeElapsed()  && currentGuiTarget != 0)
-            currentGuiTarget--; 
+        if ((Input.GetKeyDown(KeyCode.W)|| SteamVR_Actions._default.Teleport.GetStateDown(SteamVR_Input_Sources.LeftHand)) && currentGuiTargetLeft != 0)
+            currentGuiTargetLeft--; 
         
         SelectSlider();
-        var lister = SteamVR_Input_Source.GetAllSources();
-        
-        if ( Input.GetKeyDown(KeyCode.Space) || SteamVR_Actions._default.GrabGrip.GetStateDown(SteamVR_Input_Sources.RightHand))
+
+        if ( Input.GetKeyDown(KeyCode.Delete) || SteamVR_Actions._default.GrabGrip.GetStateDown(SteamVR_Input_Sources.RightHand))
         {
             SPV_active.interactable = !SPV_active.interactable; 
             SPV_active.GetComponentInChildren<Text>().text = SPV_active.interactable ? "SPV active" : "SPV Inactive";
             VariableManagerScript.Instance.useBionicVisionShader = SPV_active.interactable;
         }
 
-        if (Input.GetKeyDown(KeyCode.RightArrow))
-            GuiTargets[currentGuiTarget].value += sliderIntervals[currentGuiTarget];
+        if (Input.GetKeyDown(KeyCode.RightArrow) || SteamVR_Actions._default.SnapTurnRight.GetStateDown(SteamVR_Input_Sources.RightHand))
+            GuiTargetsRight[currentGuiTargetRight].value += sliderIntervalsRight[currentGuiTargetRight];
 
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
-            GuiTargets[currentGuiTarget].value -= sliderIntervals[currentGuiTarget];
+        if (Input.GetKeyDown(KeyCode.LeftArrow) || SteamVR_Actions._default.SnapTurnLeft.GetStateDown(SteamVR_Input_Sources.RightHand))
+            GuiTargetsRight[currentGuiTargetRight].value -= sliderIntervalsRight[currentGuiTargetRight];
+        
+        if (Input.GetKeyDown(KeyCode.D) || SteamVR_Actions._default.SnapTurnRight.GetStateDown(SteamVR_Input_Sources.LeftHand))
+            GuiTargetsLeft[currentGuiTargetLeft].value += sliderIntervalsRight[currentGuiTargetLeft];
 
-        if (Input.GetKeyDown(KeyCode.KeypadEnter) || SteamVR_Actions._default.GrabPinch.GetStateDown(SteamVR_Input_Sources.RightHand))
-            UpdateVariableManager();
+        if (Input.GetKeyDown(KeyCode.A) || SteamVR_Actions._default.SnapTurnLeft.GetStateDown(SteamVR_Input_Sources.LeftHand))
+            GuiTargetsLeft[currentGuiTargetLeft].value -= sliderIntervalsRight[currentGuiTargetLeft];
 
+        if (Input.GetKeyDown(KeyCode.KeypadEnter) ||
+            SteamVR_Actions._default.GrabPinch.GetStateDown(SteamVR_Input_Sources.RightHand))
+        {
+            if(gui.activeSelf)
+                UpdateVariableManager();
+            else
+                gui.SetActive(true);
+        }
+
+        if (Input.GetKeyDown(KeyCode.KeypadPlus) ||
+            SteamVR_Actions._default.GrabPinch.GetStateDown(SteamVR_Input_Sources.LeftHand))
+        {
+            if (gui.activeSelf)
+                gui.SetActive(false);
+            else
+                gui.SetActive(true);
+        }
+
+        VariableManagerScript.Instance.gazeLock = (int) gazeLock.value == 1 ? true : false; 
+        VariableManagerScript.Instance.temporalModel = temporalMode.value == 0 ? TemporalModels.None : TemporalModels.Pulsated; 
+        VariableManagerScript.Instance.blurIntensity = (int) blurIntensity.value; 
+        VariableManagerScript.Instance.zoom = (int) zoom.value; 
+        VariableManagerScript.Instance.whichPreprocessor = (int) preProcessor.value; 
         VariableManagerScript.Instance.amplitude = amplitude.value; 
+    }
+    
+    private void GenerateAllFiles()
+    {
+        int[] three = {0, 1, 2};
+        int[] rots = {-90, -45, 0, 45, 90};
+        for(int eye = 0; eye<2; eye++){ //Both eyes
+            foreach (var i in three) //devices
+            {
+                foreach (var j in three) //xPos
+                {
+                    foreach (var k in three) //yPos
+                    {
+                        foreach (var r in rots)
+                        {
+                            foreach (var rh in possibleRho)
+                            {
+                                foreach (var la in possibleLambda)
+                                {
+                                    GuiTargetsRight[0].value = i;
+                                    GuiTargetsRight[1].value = j;
+                                    GuiTargetsRight[2].value = k;
+                                    GuiTargetsRight[3].value = r;
+                                    GuiTargetsRight[4].value = rh;
+                                    GuiTargetsRight[5].value = la;
+                                    UpdateVariableManager();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            VariableManagerScript.Instance.useLeftEye = !VariableManagerScript.Instance.useLeftEye;
+        }
     }
 }

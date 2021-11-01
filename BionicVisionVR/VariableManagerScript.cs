@@ -13,11 +13,13 @@ public class VariableManagerScript : MonoBehaviour {
     public PreDefinedBlocks predefinedSettings;
     public bool loadFromBinaries = false;
     public bool useLeftEye = false;
+    public int zoom; 
 
     [Header("Shader Settings")]
     public bool runShaders = true;
     public Material[] preprocessingShaderMaterial = new Material[3];
-    public int whichPreprocessor = 0; 
+    public int whichPreprocessor = 0;
+    public bool depthDetection = false; 
     public bool useBionicVisionShader = true; 
     public Material perceptShaderMaterial;
     public bool blurFinalImage= true;

@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using Assets.BionicVisionVR.Coding.Structs;
+using BionicVisionVR.Coding.Resources;
 using BionicVisionVR.Coding.Structs;
 using BionicVisionVR.Resources;
 using BionicVisionVR.Structs;
@@ -32,7 +33,7 @@ public class BackendShaderHandler : MonoBehaviour {
     public int simulationAreaArrayLength;
     public int xResolution;
     public int yResolution;
-    
+
     private UnitConverter unitConverter = new UnitConverter();
     private ElectrodesHandler electrodesHandler = new ElectrodesHandler();
     private PulseTrainHandler pulseTrainHandler = new PulseTrainHandler();
@@ -212,14 +213,21 @@ public class BackendShaderHandler : MonoBehaviour {
 
     private void SetShaderVariables()
     {
-        VariableManagerScript.Instance.preprocessingShaderMaterial[VariableManagerScript.Instance.whichPreprocessor].SetBuffer("electrodesBuffer", electrodesBuffer);
-        VariableManagerScript.Instance.preprocessingShaderMaterial[VariableManagerScript.Instance.whichPreprocessor].SetInt("numberElectrodes", electrodes.Length);
-        VariableManagerScript.Instance.preprocessingShaderMaterial[VariableManagerScript.Instance.whichPreprocessor].SetInt("xResolution", xResolution);
-        VariableManagerScript.Instance.preprocessingShaderMaterial[VariableManagerScript.Instance.whichPreprocessor].SetInt("yResolution", yResolution);
-        VariableManagerScript.Instance.preprocessingShaderMaterial[VariableManagerScript.Instance.whichPreprocessor].SetFloat("amplitude", VariableManagerScript.Instance.amplitude);
+        if (VariableManagerScript.Instance.depthDetection)
+            VariableManagerScript.Instance.whichPreprocessor = 0; 
+        VariableManagerScript.Instance.preprocessingShaderMaterial[VariableManagerScript.Instance.whichPreprocessor]
+            .SetBuffer("electrodesBuffer", electrodesBuffer);
+        VariableManagerScript.Instance.preprocessingShaderMaterial[VariableManagerScript.Instance.whichPreprocessor]
+            .SetInt("numberElectrodes", electrodes.Length);
+        VariableManagerScript.Instance.preprocessingShaderMaterial[VariableManagerScript.Instance.whichPreprocessor]
+            .SetInt("xResolution", xResolution);
+        VariableManagerScript.Instance.preprocessingShaderMaterial[VariableManagerScript.Instance.whichPreprocessor]
+            .SetInt("yResolution", yResolution);
+        VariableManagerScript.Instance.preprocessingShaderMaterial[VariableManagerScript.Instance.whichPreprocessor]
+            .SetFloat("amplitude", VariableManagerScript.Instance.amplitude);
 
         VariableManagerScript.Instance.perceptShaderMaterial.SetInt("debugMode",
-            VariableManagerScript.Instance.debugMode ? 1 : 0);
+        VariableManagerScript.Instance.debugMode ? 1 : 0);
         VariableManagerScript.Instance.perceptShaderMaterial.SetInt("showElectrodes",
             VariableManagerScript.Instance.showElectrodes ? 1 : 0);
         VariableManagerScript.Instance.perceptShaderMaterial.SetInt("numberAxonTraces",
@@ -387,7 +395,7 @@ public class BackendShaderHandler : MonoBehaviour {
         if(VariableManagerScript.Instance.blurFinalImage){
             VariableManagerScript.Instance.blurShader.SetInt("_KernelSize", VariableManagerScript.Instance.blurIntensity);
             temp = processedTexture;
-            processedTexture = RenderTexture.GetTemporary(startingResX*2, startingResY*2, 0);
+            processedTexture = RenderTexture.GetTemporary(startingResX, startingResY, 0);
             Graphics.Blit(temp, processedTexture, VariableManagerScript.Instance.blurShader);
             RenderTexture.ReleaseTemporary(temp);
 
