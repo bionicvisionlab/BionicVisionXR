@@ -4,10 +4,9 @@ Before downloading this repository, start a new Unity project with Unity version
 
 For ease of editting/version control, it is recommended to use Jetbrain's Rider (https://www.jetbrains.com/rider/) integration. After installing Rider, click "Get from Version Control".  In the URL field, copy and paste this Github Repository's address (https://github.com/bionicvisionlab/BionicVisionXR) and for the directory, select the "Assets" folder of the new Unity project created previously. This will clone the repository into the Unity Project's Assets where it will be ready to use, while simultaneously being ready to pull/push from Github using Rider.  To directly link the Rider IDE to your Unity project, follow the guide at "https://www.jetbrains.com/help/rider/Unity.html". This allows for easier debugging and automatically opening files in Rider.  
 
-Alternatively, the repository can be downloaded straight from Github and moved into the Unity project's Assets folder to be used without IDE integration. 
+Alternatively, the repository can be downloaded straight from Github and moved into the Unity project's Assets folder to be used without IDE integration. Once you've loaded the project, look for any compile errors.  Most likely these will be from missing packages that will need downloaded onto your computer. Most of these assets can be located by searching the Asset Store for the name of the asset.   
 
 *** When committing changes, DO NOT add any unversioned files without getting permission first ***
-
 
 
 The general project organization is as follows:
