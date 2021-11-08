@@ -12,7 +12,7 @@ Alternatively, the repository can be downloaded straight from Github and moved i
 
 The general project organization is as follows:
 
-BionicVisionVR: For everything related to the bionic vision simulation
+BionicVisionVR: For everything related to the bionic vision simulation.  The main requirements of the simulation are the VariableManagerScript and the BackendShaderHandler.  The VariableManagerScript is a singleton that persists between scenes and keeps track of various simulation parameters. 
 
 Environment: Physical assets used across all experiments in the environment
 
