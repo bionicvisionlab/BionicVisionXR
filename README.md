@@ -19,4 +19,4 @@ Experiments: Contains code to handle block randomization, camera tracking, subje
 
 Other: Packages that help run the simulation.  For example, there is a first person movement script
 
-![alt text](https://github.com/bionicvisionlab/BionicVisionXR/Flowchart.jpeg)
+![Simulation Flowchart](https://github.com/bionicvisionlab/BionicVisionXR/blob/master/Flowchart.jpeg)
