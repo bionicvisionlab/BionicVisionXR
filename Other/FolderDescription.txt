@@ -1,0 +1,2 @@
+﻿Contains packages used for running/controlling the simulation that are not part of 
+the environment.  Examples: VR libraries, Eye tracking, First Person Controller, etc.

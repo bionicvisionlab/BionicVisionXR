@@ -1,0 +1,62 @@
+﻿// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel calculateGauss
+#pragma kernel calculateGaussDebug
+
+struct AxonSegment
+{
+    float x;
+    float y;  
+    float brightnessContribution;
+};
+
+struct Electrode
+{
+    int electrodeNumber; 
+    float x;
+    float y; 
+    float current; 
+};
+            
+int ElectrodeCount;
+float rho;
+
+RWStructuredBuffer<float> AxonSegmentGauss : register(u4);
+
+StructuredBuffer<Electrode> Electrodes;
+StructuredBuffer<AxonSegment> Axons;
+RWStructuredBuffer<float3> DebugInfo;
+
+
+[numthreads(1024,1,1)]
+void calculateGauss (uint3 id : SV_DispatchThreadID)
+{
+    for (int currentElectrode = 0; currentElectrode < ElectrodeCount; currentElectrode++)
+    {
+        float distance2 = pow(Axons[id.x].x-Electrodes[currentElectrode].x,2)
+        + pow(Axons[id.x].y-Electrodes[currentElectrode].y,2);
+        
+        distance2 = distance2 < 1e-44 ? 1e-44 : distance2;
+        
+        float expInner = -distance2/(2*rho*rho);
+        AxonSegmentGauss[id.x * ElectrodeCount + currentElectrode] = exp(expInner);
+    }
+}
+
+[numthreads(1024,1,1)]
+void calculateGaussDebug (uint3 id : SV_DispatchThreadID)
+{
+    for (int currentElectrode = 0; currentElectrode < ElectrodeCount; currentElectrode++)
+    {
+        float distance2 = pow(Axons[id.x].x-Electrodes[currentElectrode].x,2)
+        + pow(Axons[id.x].y-Electrodes[currentElectrode].y,2);
+        
+        distance2 = distance2 < 1e-44 ? 1e-44 : distance2;
+        
+        float expInner = -distance2/(2*rho*rho);
+        float gauss = exp(expInner);
+        AxonSegmentGauss[id.x * ElectrodeCount + currentElectrode] = gauss;
+        DebugInfo[id.x * ElectrodeCount + currentElectrode].x = distance2;
+        DebugInfo[id.x * ElectrodeCount + currentElectrode].y = expInner;
+        DebugInfo[id.x * ElectrodeCount + currentElectrode].z = expInner;
+    }
+}
