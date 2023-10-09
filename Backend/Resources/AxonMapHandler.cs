@@ -86,8 +86,6 @@ public class AxonMapHandler
     /// </summary>
     public void SetElectrodeToAxonSegmentGauss()
     {
-        Timer time = new Timer("Calc Time");
-        time.start();
         int numberElectrodes = VariableManagerScript.Instance.numberYelectrodes *
                                VariableManagerScript.Instance.numberXelectrodes;
 
@@ -157,8 +155,7 @@ public class AxonMapHandler
                         VariableManagerScript.Instance.configurationPath + "_axonElectrodeGauss", electrodeGauss
                     ); } }
 
-            ErrorDebug.Log("Finished Calculating Electrode Distances");
-            time.stopAndLog(); } }
+            ErrorDebug.Log("Finished Calculating Electrode Distances"); } }
   
   
     /// <summary>

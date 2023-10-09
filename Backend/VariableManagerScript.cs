@@ -41,11 +41,9 @@ public class VariableManagerScript : MonoBehaviour {
     public bool depthDetection = false; 
     public bool useBionicVisionShader = true; 
     public Material perceptShaderMaterial;
-    public bool preprocessingblur = true;
-    public int preBlurIntensity = 5; 
     public bool blurFinalImage= true;
     public int postBlurIntensity = 15;
-    public Material blurShader;
+    public Material postBlurShader;
     public ComputeShader randomShuffler;
     
 
@@ -148,7 +146,7 @@ public class VariableManagerScript : MonoBehaviour {
     /// <returns></returns>
     public void updateConfigurationPath()
     {
-       backendPath = Application.dataPath + Path.DirectorySeparatorChar + "BionicVisionVR" +
+       backendPath = Application.dataPath + Path.DirectorySeparatorChar + "BionicVisionXR" +
         Path.DirectorySeparatorChar
         + "Backend" + Path.DirectorySeparatorChar ;
         configurationPath = backendPath + "PremadeConfigurations" + Path.DirectorySeparatorChar + GetCurrentConfig();

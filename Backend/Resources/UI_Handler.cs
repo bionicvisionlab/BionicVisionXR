@@ -198,7 +198,8 @@ public class UI_Handler : MonoBehaviour
 
         foreach (var rawImage in UiOverlayPositions)
         {
-            rawImage.enabled = false;
+            if(rawImage!=null)
+                rawImage.enabled = false;
         }
 
         if ( Instance == null) { Instance = this; DontDestroyOnLoad(gameObject); }

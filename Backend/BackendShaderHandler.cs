@@ -113,7 +113,7 @@ public class BackendShaderHandler : MonoBehaviour {
             
             RenderTexture.ReleaseTemporary(processedTexture);
 
-            if (vm.CheckForUpdate() || (framesToWait != frameDelay )) {
+            if (vm.CheckForUpdate() || (framesToWait != frameDelay ) || (vm.calculateAxonMap && axonMap.axonSegmentContributions == null)) {
                 UpdateAfterFrames(); // Insures the loading screen is loaded before doing calculations
                 return; }
 
@@ -124,8 +124,6 @@ public class BackendShaderHandler : MonoBehaviour {
             RasterizeElectrodes();
             
             GetGazeScreenPos();
-
-            BlurImage(false); 
             
 			RunPreprocessing();
 
@@ -137,7 +135,7 @@ public class BackendShaderHandler : MonoBehaviour {
             
             RunTemporal(); 
              
-            BlurImage(true);
+            BlurImage();
 
             ElectrodeDebug();
             Graphics.Blit(processedTexture, destination);
@@ -446,18 +444,18 @@ public class BackendShaderHandler : MonoBehaviour {
     /// <summary>
     /// If blurFinalImage is true, apply blurShader twice to processedTexture
     /// </summary>
-    private void BlurImage(bool final) {
-        if((final && vm.blurFinalImage) || (!final && vm.preprocessingBlur){
-            vm.blurShader.SetInt("_KernelSize", final ? vm.postBlurIntensity : preBlurIntensity);
-            temp = processedTexture;
-            processedTexture = RenderTexture.GetTemporary(startingResX, startingResY, 0);
-            Graphics.Blit(temp, processedTexture, vm.blurShader);
-            RenderTexture.ReleaseTemporary(temp);
+    private void BlurImage()
+    {
+        vm.postBlurShader.SetInt("_KernelSize", vm.postBlurIntensity );
+        temp = processedTexture;
+        processedTexture = RenderTexture.GetTemporary(temp.width, temp.height, 0);
+        Graphics.Blit(temp, processedTexture, vm.postBlurShader);
+        RenderTexture.ReleaseTemporary(temp);
 
-            temp = processedTexture;
-            processedTexture = RenderTexture.GetTemporary(startingResX, startingResY, 0);
-            Graphics.Blit(temp, processedTexture, vm.blurShader);
-            RenderTexture.ReleaseTemporary(temp); } }
+        temp = processedTexture;
+        processedTexture = RenderTexture.GetTemporary(temp.width, temp.height, 0);
+        Graphics.Blit(temp, processedTexture, vm.postBlurShader);
+        RenderTexture.ReleaseTemporary(temp);  }
 
     /// <summary>
     /// If in debugMode, log info to ErrorDebug
@@ -562,12 +560,13 @@ public class BackendShaderHandler : MonoBehaviour {
     /// Release buffers
     /// </summary>
     private void OnApplicationQuit() {
-        if(electrodesBuffer != null && electrodesBuffer.IsValid())
-            electrodesBuffer.Release();
-        if (simulationVariablesBuffer != null && simulationVariablesBuffer.IsValid())
-            simulationVariablesBuffer.Release();
-        if (vm.useAxonMap && axonContributionBuffer != null && axonContributionBuffer.IsValid())
-            axonContributionBuffer.Release(); }
+        tempVarsBuffer?.Release();
+        axonSegmentGaussToElectrodes?.Release();
+        electrodesBuffer?.Release();
+        axonContributionBuffer?.Release();
+        axonIdxStartBuffer?.Release();
+        axonIdxEndBuffer?.Release();
+        }
     
     private void Start() {
         vm = VariableManagerScript.Instance;
@@ -581,8 +580,6 @@ public class BackendShaderHandler : MonoBehaviour {
             System.Runtime.InteropServices.Marshal.SizeOf(typeof(AxonSegment)));
         electrodesBuffer = new ComputeBuffer(10,
             System.Runtime.InteropServices.Marshal.SizeOf(typeof(Electrode)));
-        simulationVariablesBuffer = new ComputeBuffer(10,
-            System.Runtime.InteropServices.Marshal.SizeOf(typeof(AxonMapSettings)));
         axonContributionBuffer = new ComputeBuffer(10, 
             System.Runtime.InteropServices.Marshal.SizeOf(typeof(float))); 
         axonIdxStartBuffer = new ComputeBuffer(10, 
