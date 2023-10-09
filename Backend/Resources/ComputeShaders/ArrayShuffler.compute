@@ -1,0 +1,32 @@
+﻿// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel CSMain
+
+struct Electrode
+{
+    int electrodeNumber;
+    float x;
+    float y;
+    float current; 
+};
+
+// Create a RenderTexture with enableRandomWrite flag and set it
+// with cs.SetTexture
+RWStructuredBuffer<Electrode> electrodesBuffer : register(u2);
+RWStructuredBuffer<int> randomIndex;
+RWStructuredBuffer<float> tempBuffer;
+
+uint numberElectrodes; 
+[numthreads(1024,1,1)]
+void CSMain (uint3 id : SV_DispatchThreadID)
+{
+    // TODO: insert actual code here!
+    for (uint i = 0; i < numberElectrodes; i++)
+    {
+        int index = randomIndex[i];
+        tempBuffer[i] = electrodesBuffer[index].current;
+    }
+    for (uint j = 0; j < numberElectrodes; j++)
+    {
+        electrodesBuffer[j].current = tempBuffer[j];
+    }
+}
